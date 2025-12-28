@@ -13,33 +13,33 @@
     <!-- LOGO 区 -->
     <view class="logo-area animate-fade-in">
       <view class="logo-circle animate-pulse">
-        <text class="logo-symbol">📈</text>
+        <text class="logo-symbol">🧬</text>
       </view>
-      <text class="main-title text-glow-gold">A-SHARE</text>
-      <text class="sub-title">SENSE TRAINER</text>
-      <view class="tag-badge">VER 3.0</view>
+      <text class="main-title text-glow-gold">A股觉醒计划</text>
+      <text class="sub-title">A-SHARE AWAKENING</text>
+      <view class="tag-badge">量子版本 3.0</view>
     </view>
 
     <!-- 数据仪表盘 -->
     <view class="glass-card stat-panel animate-fade-in" style="animation-delay: 0.2s">
       <view class="stat-item">
-        <text class="label">INITIAL FUND</text>
+        <text class="label">初始净值</text>
         <text class="value din-font text-glow-gold">¥100,000</text>
       </view>
       <view class="v-divider"></view>
       <view class="stat-item">
-        <text class="label">TARGET</text>
-        <text class="value din-font">SURVIVE 10</text>
+        <text class="label">生存协议</text>
+        <text class="value din-font">完成 10 轮博弈</text>
       </view>
     </view>
 
     <!-- 启动按钮 -->
     <view class="action-area animate-fade-in" style="animation-delay: 0.4s">
       <button class="start-btn" bindtap="startGame">
-        <text class="btn-text">START ENGINE</text>
-        <text class="btn-icon">🚀</text>
+        <text class="btn-text">接入市场序列</text>
+        <text class="btn-icon">⚡</text>
       </button>
-      <text class="slogan-text">ARE YOU READY FOR THE MARKET?</text>
+      <text class="slogan-text">风险是生存唯一的筹码</text>
     </view>
   </view>
 </view>

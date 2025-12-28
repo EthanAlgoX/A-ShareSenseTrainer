@@ -6,81 +6,81 @@
 const TALENTS = [
     {
         id: 'insider',
-        name: '内幕消息',
+        name: '深层扫描',
         icon: '🔍',
-        description: '可以提前看到明天的成交量柱状图',
+        description: '成功入侵明日成交量接口，可查看量能柱',
         effect: 'show_volume',
         rarity: 'rare'
     },
     {
         id: 'leverage',
-        name: '融资融券',
+        name: '算力杠杆',
         icon: '💰',
-        description: '收益和亏损都翻倍（2x杠杆）',
+        description: '强制接入高能杠杆，收益与风险同步翻倍',
         effect: 'double_profit',
         rarity: 'epic'
     },
     {
         id: 'halt',
-        name: '停牌重组',
+        name: '自愈协议',
         icon: '🛡️',
-        description: '单次亏损超过5%时，强制回退到本金不变',
+        description: '单次净值跌幅超5%时强制执行回滚保护',
         effect: 'loss_protection',
         rarity: 'legendary'
     },
     {
         id: 'banker',
-        name: '庄家抬轿',
+        name: '庄家后门',
         icon: '🎰',
-        description: '空仓时也能获得1%的理财收益',
+        description: '劫持市场空隙，空仓时同步获得1%利差',
         effect: 'idle_income',
         rarity: 'rare'
     },
     {
         id: 'prophet',
-        name: '技术大师',
+        name: '趋势追踪',
         icon: '📊',
-        description: '可以看到MA60均线（长期趋势）',
+        description: '算法追踪，可查看MA60长期波动中轴',
         effect: 'show_ma60',
         rarity: 'rare'
     },
     {
         id: 'lucky',
-        name: '财神附体',
+        name: '起源模块',
         icon: '🍀',
-        description: '首次操作必定盈利',
+        description: '博弈初始阶段自带幸运光环，首战必胜',
         effect: 'first_win',
         rarity: 'legendary'
     },
     {
         id: 'steady',
-        name: '稳健投资',
+        name: '频率修正',
         icon: '🎯',
-        description: '盈亏幅度减半，但胜率提升',
+        description: '过滤极端波动噪音，盈亏收窄但胜率稳定',
         effect: 'half_volatility',
         rarity: 'common'
     },
     {
         id: 'gambler',
-        name: '梭哈之王',
+        name: '逻辑旁路',
         icon: '🎲',
-        description: '每3关可以选择跳过，直接获得±10%随机收益',
+        description: '每3轮可选择绕过当前博弈，随机抽取分红',
         effect: 'skip_chance',
         rarity: 'epic'
     },
     {
         id: 'analyst',
-        name: '研报专家',
+        name: '分析补丁',
         icon: '📰',
-        description: '小道消息的真实性提示（利好/利空标记）',
+        description: '情报强化，自动标记市场传闻的倾向性',
         effect: 'news_hint',
         rarity: 'rare'
     },
     {
         id: 'timetravel',
-        name: '时光倒流',
+        name: '快照回滚',
         icon: '⏰',
-        description: '一次机会重新选择上一关的决策',
+        description: '获取一次撤销历史错误决策的机会',
         effect: 'undo_once',
         rarity: 'legendary'
     }

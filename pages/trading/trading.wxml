@@ -9,7 +9,7 @@
   <!-- 顶部状态栏 -->
   <view class="status-bar animate-fade-in">
     <view class="status-item">
-      <text class="label">LEVEL</text>
+      <text class="label">博弈轮次</text>
       <view class="value-box">
         <text class="value din-font">{{currentLevel}}</text>
         <text class="sub">/{{totalLevels}}</text>
@@ -17,7 +17,7 @@
     </view>
     
     <view class="status-item capital">
-      <text class="label">ASSETS</text>
+      <text class="label">账户净值</text>
       <text class="value din-font {{capitalClass}}">¥{{capitalDisplay}}</text>
     </view>
   </view>
@@ -34,7 +34,7 @@
       
       <!-- 右侧：股票代号 -->
       <view class="stock-pill glass-card-light">
-        <text class="code din-font">CODE</text>
+        <text class="code din-font">观测对象</text>
         <text class="name">{{stockName}}</text>
       </view>
     </view>
@@ -45,7 +45,7 @@
       <view class="news-ticker-cyber">
         <view class="news-icon-box">
           <text class="icon-pulse">🔴</text>
-          <text class="icon-text">NEWS</text>
+          <text class="icon-text">小道消息</text>
         </view>
         <view class="news-track">
           <view class="news-scroller">
@@ -63,14 +63,14 @@
 
   <!-- 底部操作栏 -->
   <view class="control-deck animate-fade-in" style="animation-delay: 0.4s" wx:if="{{!showingResult}}">
-    <view class="hint-text">PREDICT MARKET MOVEMENT</view>
+    <view class="hint-text">解析明日波动概率</view>
     <view class="button-group">
       <button class="cyber-btn btn-long" bindtap="handleBuy" disabled="{{isProcessing}}">
         <view class="btn-inner">
-          <text class="icon">📈</text>
+          <text class="icon">🚀</text>
           <view class="text-group">
-            <text class="main">LONG</text>
-            <text class="sub">ALL IN</text>
+            <text class="main">全仓梭哈</text>
+            <text class="sub">介入全额头寸</text>
           </view>
         </view>
       </button>
@@ -79,15 +79,15 @@
         <view class="btn-inner">
           <text class="icon">🛡️</text>
           <view class="text-group">
-            <text class="main">WAIT</text>
-            <text class="sub">HOLD CASH</text>
+            <text class="main">静默避险</text>
+            <text class="sub">保持现金头寸</text>
           </view>
         </view>
       </button>
     </view>
   </view>
 
-  <!-- --- 结果覆盖层 --- -->
+  <!-- 结果覆盖层 -->
   <view class="result-overlay {{resultAnimation}}" wx:if="{{showingResult}}">
     <view class="result-glass-card {{resultType}}">
       <view class="result-header">
@@ -109,7 +109,7 @@
   <!-- 全局 Loading -->
   <view class="cyber-loader" wx:if="{{isProcessing}}">
     <view class="loader-ring"></view>
-    <text class="loader-text">ANALYZING...</text>
+    <text class="loader-text">分析中...</text>
   </view>
 
   <!-- 特效层 -->

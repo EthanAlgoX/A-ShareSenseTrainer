@@ -7,9 +7,9 @@
 
   <!-- 标题区 -->
   <view class="header animate-fade-in">
-    <view class="step-badge">PRE-MARKET</view>
-    <text class="title text-glow-gold">SELECT TALENT</text>
-    <text class="subtitle">CHOOSE YOUR STRATEGY WISELY</text>
+    <view class="step-badge">盘前准备</view>
+    <text class="title text-glow-gold">选择操盘天赋</text>
+    <text class="subtitle">智者先利其器，请谨慎选择</text>
   </view>
 
   <!-- 天赋卡片容器 -->
@@ -20,7 +20,7 @@
       wx:key="id"
       bindtap="selectTalent"
       data-id="{{item.id}}"
-      style="animation-delay: {{index * 0.1}}s"
+      style="animation-delay: 0s"
     >
       <!-- 全息扫描线 -->
       <view class="scan-line"></view>
@@ -52,7 +52,7 @@
       bindtap="confirmTalent"
       disabled="{{!selectedTalent}}"
     >
-      <text class="btn-text">CONFIRM SELECTION</text>
+      <text class="btn-text">确认选择</text>
     </button>
   </view>
 </view>

@@ -20,7 +20,9 @@ Page({
         dodgeCount: 0,
         missCount: 0,
         particles: [],
-        achievements: []
+        achievements: [],
+        winRate: '0',
+        isProfitable: false
     },
 
     onLoad() {
@@ -70,10 +72,8 @@ Page({
             badgeClass: badge.class,
             buyCount: stats.buyCount,
             waitCount: stats.waitCount,
-            winCount: stats.winCount,
-            loseCount: stats.loseCount,
-            dodgeCount: stats.dodgeCount,
-            missCount: stats.missCount,
+            winRate: (winCount + loseCount > 0 ? ((winCount / (winCount + loseCount)) * 100).toFixed(0) : 0).toString(),
+            isProfitable: finalCapital >= initialCapital,
             achievements: achievements
         });
     },
@@ -82,71 +82,71 @@ Page({
     getBadge(finalCapital, initialCapital, stats) {
         const ratio = finalCapital / initialCapital;
 
-        // 空仓之王：资金约等于初始值且空仓超7次
+        // 空仓之神：资金约等于初始值且空仓超7次
         if (ratio >= 0.95 && ratio <= 1.05 && stats.waitCount >= 7) {
             return {
-                emoji: '👑',
-                title: '空仓之王',
-                subtitle: '知行合一，空仓也是一种操作',
+                emoji: '🧘',
+                title: '空仓之神',
+                subtitle: '在贪婪的洪流中，你选择了静默，这本身就是一种伟大的进化。',
                 class: 'badge-gold'
             };
         }
 
-        // 巴菲特分特：收益超30%
+        // 终极觉醒者：收益超30%
         if (ratio > 1.30) {
             return {
-                emoji: '🦅',
-                title: '巴菲特分特',
-                subtitle: '一代股神，财务自由指日可待',
+                emoji: '👑',
+                title: '终极觉醒者',
+                subtitle: '你已洞悉K线背后的原始代码，财富对你而言只是跳动的溢价。',
                 class: 'badge-legendary'
             };
         }
 
-        // 游资大佬：收益超20%
+        // 高频掠夺者：收益超20%
         if (ratio > 1.20) {
             return {
-                emoji: '🚀',
-                title: '游资大佬',
-                subtitle: '嗅觉敏锐，擅长捕捉主升浪',
+                emoji: '⚔️',
+                title: '高频掠夺者',
+                subtitle: '在瞬息万变的市场中精准狙击，游资大佬见了也要直呼内行。',
                 class: 'badge-epic'
             };
         }
 
-        // 稳健理财师：收益0-20%
+        // 算法优化师：收益0-20%
         if (ratio > 1.00) {
             return {
-                emoji: '📈',
-                title: '稳健理财师',
-                subtitle: '稳扎稳打，懂得风险控制',
+                emoji: '📊',
+                title: '算法优化师',
+                subtitle: '稳健的博弈频率，你正在建立属于自己的生存闭环。',
                 class: 'badge-rare'
             };
         }
 
-        // 保本选手：亏损0-10%
+        // 幸存数据员：亏损0-10%
         if (ratio >= 0.90) {
             return {
-                emoji: '😅',
-                title: '保本选手',
-                subtitle: '小亏当赢，下次再战',
+                emoji: '👁️',
+                title: '幸存数据员',
+                subtitle: '由于观测偏差导致轻微亏损，下一次博弈将修正误差。',
                 class: 'badge-common'
             };
         }
 
-        // 绿油油：亏损10-20%
+        // 系统冗余：亏损10-20%
         if (ratio >= 0.80) {
             return {
-                emoji: '🥬',
-                title: '绿油油',
-                subtitle: '被市场收割，需要反思',
+                emoji: '🧹',
+                title: '系统冗余',
+                subtitle: '被市场当做无用数据清理，你的逻辑序列需要彻底重构。',
                 class: 'badge-poor'
             };
         }
 
-        // A股慈善家：亏损超20%
+        // 净值捐赠者：亏损超20%
         return {
-            emoji: '💸',
-            title: 'A股慈善家',
-            subtitle: '为国接盘，感谢你的付出',
+            emoji: '🧧',
+            title: '净值捐赠者',
+            subtitle: '感谢您为A股生态圈提供的流动性，功德+999,999。',
             class: 'badge-worst'
         };
     },

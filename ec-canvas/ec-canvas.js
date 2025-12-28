@@ -36,7 +36,12 @@ Component({
     },
 
     ec: {
-      type: Object
+      type: Object,
+      observer: function (newVal) {
+        if (newVal && !this.chart && !newVal.lazyLoad) {
+          this.init();
+        }
+      }
     },
 
     forceUseOldCanvas: {
@@ -220,16 +225,16 @@ Component({
         handler.dispatch('mousedown', {
           zrX: touch.x,
           zrY: touch.y,
-          preventDefault: () => {},
-          stopImmediatePropagation: () => {},
-          stopPropagation: () => {}
+          preventDefault: () => { },
+          stopImmediatePropagation: () => { },
+          stopPropagation: () => { }
         });
         handler.dispatch('mousemove', {
           zrX: touch.x,
           zrY: touch.y,
-          preventDefault: () => {},
-          stopImmediatePropagation: () => {},
-          stopPropagation: () => {}
+          preventDefault: () => { },
+          stopImmediatePropagation: () => { },
+          stopPropagation: () => { }
         });
         handler.processGesture(wrapTouch(e), 'start');
       }
@@ -242,9 +247,9 @@ Component({
         handler.dispatch('mousemove', {
           zrX: touch.x,
           zrY: touch.y,
-          preventDefault: () => {},
-          stopImmediatePropagation: () => {},
-          stopPropagation: () => {}
+          preventDefault: () => { },
+          stopImmediatePropagation: () => { },
+          stopPropagation: () => { }
         });
         handler.processGesture(wrapTouch(e), 'change');
       }
@@ -257,16 +262,16 @@ Component({
         handler.dispatch('mouseup', {
           zrX: touch.x,
           zrY: touch.y,
-          preventDefault: () => {},
-          stopImmediatePropagation: () => {},
-          stopPropagation: () => {}
+          preventDefault: () => { },
+          stopImmediatePropagation: () => { },
+          stopPropagation: () => { }
         });
         handler.dispatch('click', {
           zrX: touch.x,
           zrY: touch.y,
-          preventDefault: () => {},
-          stopImmediatePropagation: () => {},
-          stopPropagation: () => {}
+          preventDefault: () => { },
+          stopImmediatePropagation: () => { },
+          stopPropagation: () => { }
         });
         handler.processGesture(wrapTouch(e), 'end');
       }

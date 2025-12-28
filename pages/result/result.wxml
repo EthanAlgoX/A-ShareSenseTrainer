@@ -8,13 +8,13 @@
   <!-- 上部分：核心证书区 -->
   <view class="report-card glass-card animate-fade-in">
     <view class="report-header">
-      <text class="report-title">TRADING SESSION REPORT</text>
-      <text class="report-date">{{finalCapital >= 100000 ? 'PROFITABLE' : 'LIQUIDATED'}}</text>
+      <text class="report-title">博弈清算凭证</text>
+      <text class="report-date">{{isProfitable ? '增值序列已确认' : '净值因不可抗力坍缩'}}</text>
     </view>
 
     <!-- 收益数字 -->
     <view class="profit-display">
-      <view class="label">FINAL ASSETS</view>
+      <view class="label">最终净值</view>
       <text class="value din-font {{profitClass}}">¥{{finalCapital}}</text>
       <view class="change-tag {{profitChangeClass}}">
         <text>{{profitChangeText}} ({{profitPercent}})</text>
@@ -27,7 +27,7 @@
         <text class="emoji">{{badgeEmoji}}</text>
       </view>
       <view class="badge-info">
-        <text class="rank">RANKING</text>
+        <text class="rank">算法评级</text>
         <text class="name text-glow-gold">{{badgeTitle}}</text>
       </view>
     </view>
@@ -41,29 +41,29 @@
   <view class="stats-grid animate-fade-in" style="animation-delay: 0.2s">
     <!-- 关键数据 -->
     <view class="stat-box glass-card-light">
-      <text class="label">WIN RATE</text>
-      <text class="value din-font">{{winCount + loseCount > 0 ? ((winCount / (winCount + loseCount)) * 100).toFixed(0) : 0}}%</text>
+      <text class="label">胜率</text>
+      <text class="value din-font">{{winRate}}%</text>
     </view>
     
     <view class="stat-box glass-card-light">
-      <text class="label">DODGE</text>
+      <text class="label">躲避</text>
       <text class="value din-font">{{dodgeCount}}</text>
     </view>
 
     <view class="stat-box glass-card-light">
-      <text class="label">TRADES</text>
+      <text class="label">交易</text>
       <text class="value din-font">{{buyCount}}</text>
     </view>
 
     <view class="stat-box glass-card-light">
-      <text class="label">MISS</text>
+      <text class="label">踏空频率</text>
       <text class="value din-font">{{missCount}}</text>
     </view>
   </view>
 
   <!-- 下部分：成就列表 -->
   <view class="achievements-area animate-fade-in" style="animation-delay: 0.4s" wx:if="{{achievements.length > 0}}">
-    <view class="section-title">ACHIEVEMENTS UNLOCKED</view>
+    <view class="section-title">数据里程碑</view>
     <view class="achievement-card glass-card-light" wx:for="{{achievements}}" wx:key="index">
       <view class="icon-box">{{item.icon}}</view>
       <view class="info">
@@ -76,10 +76,10 @@
   <!-- 底部操作区 -->
   <view class="action-footer animate-fade-in" style="animation-delay: 0.6s">
     <button class="cyber-btn btn-restart" bindtap="playAgain">
-      <text>RESTART SYSTEM</text>
+      <text>重置序列</text>
     </button>
     <button class="cyber-btn btn-share" open-type="share">
-      <text>SHARE REPORT</text>
+      <text>广播战绩</text>
     </button>
   </view>
 </view>

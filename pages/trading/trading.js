@@ -5,8 +5,7 @@ const chartHelper = require('../../utils/chartHelper.js');
 const soundHelper = require('../../utils/soundHelper.js');
 const newsData = require('../../data/newsData.js');
 
-let chart = null;
-let echarts = null; // 将从 ec-canvas 组件获取
+// 移除全局 echarts 变量，改为在初始化时局部引入，避免渲染实例冲突
 
 Page({
     data: {
@@ -26,7 +25,9 @@ Page({
         resultMessage: '',
         resultAnimation: '',
         effectClass: '',
-        ec: { onInit: null },
+        ec: {
+            lazyLoad: true // 保持懒加载，由逻辑控制初始化
+        },
 
         // 趣味性增强
         stockQuote: '',
@@ -68,37 +69,43 @@ Page({
 
     // 加载当前关卡数据
     loadLevelData() {
-        const levelIndex = app.globalData.currentLevel - 1;
-        const levelData = stockData.getLevelData(levelIndex);
+        const { currentLevel, sessionSeeds } = app.globalData;
+        const levelData = stockData.getLevelDataFromSession(sessionSeeds, currentLevel);
 
         this.setData({
             levelData: levelData,
-            stockName: levelData.name,
-            ec: {
-                onInit: (canvas, width, height, dpr) => {
-                    return this.initChart(canvas, width, height, dpr);
-                }
-            }
+            stockName: levelData.name
+        }, () => {
+            // 数据准备好后再初始化，确保 initChart 能拿到 this.data.levelData
+            this.initChartComponent();
         });
     },
 
-    // 初始化图表
-    initChart(canvas, width, height, dpr) {
-        // 懒加载 echarts
-        if (!echarts) {
-            echarts = require('../../ec-canvas/echarts');
+    // 安全初始化组件
+    initChartComponent() {
+        const chartComponent = this.selectComponent('#kline-chart');
+        if (chartComponent) {
+            chartComponent.init((canvas, width, height, dpr) => {
+                return this.initChart(canvas, width, height, dpr);
+            });
         }
+    },
 
-        chart = echarts.init(canvas, null, {
+    // 初始化图表实例
+    initChart(canvas, width, height, dpr) {
+        const echarts = require('../../ec-canvas/echarts');
+
+        // 将实例挂载到 this 提高稳定性，避免全局变量污染
+        this.chartInstance = echarts.init(canvas, null, {
             width: width,
             height: height,
             devicePixelRatio: dpr
         });
 
         const option = chartHelper.generateChartOption(this.data.levelData.history, false);
-        chart.setOption(option);
+        this.chartInstance.setOption(option, true);
 
-        return chart;
+        return this.chartInstance;
     },
 
     // 买入操作
@@ -334,7 +341,7 @@ Page({
 
     // 更新图表显示答案
     updateChartWithAnswer() {
-        if (!chart) return;
+        if (!this.chartInstance) return;
 
         const fullData = [...this.data.levelData.history, this.data.levelData.answer];
         const option = chartHelper.generateChartOption(fullData, true);
@@ -351,7 +358,7 @@ Page({
             }]
         };
 
-        chart.setOption(option);
+        this.chartInstance.setOption(option);
     },
 
     // 下一关
