@@ -155,8 +155,8 @@
 }
 
 .chart-canvas-box {
-  flex: 1;
   width: 100%;
+  height: 600rpx; /* 强制指定高度，防止一些设备上 flex 渲染为 0 */
   position: relative;
 }
 
@@ -232,34 +232,34 @@ ec-canvas {
 .result-overlay {
   position: fixed;
   top: 0; left: 0; right: 0; bottom: 0;
-  background: rgba(0, 0, 0, 0.85);
-  backdrop-filter: blur(5px);
-  z-index: 100;
+  /* 强制实色背景，彻底屏蔽物理层数据 */
+  background: #0B0B15; 
+  z-index: 9999; /* 绝对顶层，覆盖所有原生组件 */
   display: flex;
   align-items: center;
   justify-content: center;
   padding: 40rpx;
+  box-sizing: border-box;
 }
 
 /* 让卡片此时可以点击 */
 .result-glass-card {
   pointer-events: auto;
-  width: 100%;
-  padding: 40rpx 30rpx;
+  width: 85%; /* 调整宽度，确保居中更美观 */
+  max-width: 600rpx;
+  padding: 60rpx 40rpx;
   border-radius: 32rpx;
-  /* 更深邃的玻璃背景 */
-  background: rgba(11, 11, 21, 0.95);
-  backdrop-filter: blur(20px);
+  background: rgba(255, 255, 255, 0.05);
+  border: 1rpx solid rgba(255, 255, 255, 0.1);
+  box-shadow: 0 40rpx 80rpx rgba(0, 0, 0, 0.6);
   display: flex;
   flex-direction: column;
   align-items: center;
-  border: 1rpx solid rgba(255, 255, 255, 0.1);
-  box-shadow: 0 20rpx 60rpx rgba(0, 0, 0, 0.5);
   
   /* 进场动画 */
   transform: scale(0.9);
   opacity: 0;
-  animation: result-pop 0.3s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+  animation: result-pop 0.4s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
 }
 
 @keyframes result-pop {
@@ -309,18 +309,20 @@ ec-canvas {
 .result-value .change.fall { color: var(--neon-green); }
 
 .quote-box {
-  background: rgba(255, 255, 255, 0.05);
-  padding: 16rpx 24rpx;
-  border-radius: 12rpx;
-  border-left: 4rpx solid var(--neon-gold);
+  background: rgba(255, 255, 255, 0.08);
+  padding: 24rpx 30rpx;
+  border-radius: 16rpx;
+  border-left: 6rpx solid var(--neon-gold);
   width: 100%;
+  box-sizing: border-box;
 }
 .quote-box .quote { 
   font-style: italic; 
-  color: var(--text-muted); 
-  font-size: 22rpx; 
+  color: #DDD; /* 提高对比度 */
+  font-size: 24rpx; 
   display: block;
   text-align: left;
+  line-height: 1.5;
 }
 
 /* 全局Loader */

@@ -45,11 +45,17 @@ Page({
     },
 
     onLoad() {
+        // 开启分享朋友圈功能
+        wx.showShareMenu({
+            withShareTicket: true,
+            menus: ['shareAppMessage', 'shareTimeline']
+        });
         this.initGame();
     },
 
     onUnload() {
-        chart = null;
+        console.info('[Trading] Page Unload, clearing chart instance');
+        this.chartInstance = null;
     },
 
     // 初始化游戏
@@ -86,10 +92,15 @@ Page({
 
     // 图表初始化事件回调
     onChartInit(e) {
-        const { canvas, width, height, dpr } = e.detail;
-        if (!this.data.levelData) return;
+        console.info('[Trading] onChartInit received:', e.detail);
+        const { canvas, width, height, dpr, echarts: echartsInstance } = e.detail;
 
-        this.initChart(canvas, width, height, dpr);
+        if (!canvas) {
+            console.error('[Trading] No canvas provided in init event');
+            return;
+        }
+
+        this.initChart(canvas, width, height, dpr, echartsInstance);
     },
 
     // 封装图表数据更新逻辑
@@ -100,15 +111,23 @@ Page({
     },
 
     // 初始化图表实例
-    initChart(canvas, width, height, dpr) {
-        // 使用页面顶部引入的 echarts
-        this.chartInstance = echarts.init(canvas, null, {
-            width: width,
-            height: height,
-            devicePixelRatio: dpr
-        });
+    initChart(canvas, width, height, dpr, echartsInstance) {
+        console.info(`[Trading] Initializing Chart: ${width}x${height} @ ${dpr}dpr`);
 
-        this.updateChartData();
+        // 优先使用组件传过来的实例，如果没传则兜底使用页面引用的
+        const renderEcharts = echartsInstance || echarts;
+
+        try {
+            this.chartInstance = renderEcharts.init(canvas, null, {
+                width: width,
+                height: height,
+                devicePixelRatio: dpr
+            });
+            console.info('[Trading] ECharts instance created successfully');
+            this.updateChartData();
+        } catch (err) {
+            console.error('[Trading] ECharts init failed:', err);
+        }
 
         return this.chartInstance;
     },

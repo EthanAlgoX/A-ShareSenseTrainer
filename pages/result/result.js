@@ -50,6 +50,8 @@ Page({
         const initialCapital = globalData.initialCapital;
         const stats = globalData.stats;
 
+        console.info('[Result] Calculating report with stats:', stats);
+
         // 计算收益
         const profit = finalCapital - initialCapital;
         const profitPercent = (profit / initialCapital) * 100;
@@ -59,6 +61,10 @@ Page({
 
         // 检测成就
         const achievements = soundHelper.checkAchievements(globalData.operations, stats);
+
+        // 计算胜率，防止除以 0
+        const totalTrades = stats.winCount + stats.loseCount;
+        const winRate = totalTrades > 0 ? ((stats.winCount / totalTrades) * 100).toFixed(0) : '0';
 
         this.setData({
             finalCapital: this.formatMoney(finalCapital),
@@ -72,10 +78,16 @@ Page({
             badgeClass: badge.class,
             buyCount: stats.buyCount,
             waitCount: stats.waitCount,
-            winRate: (winCount + loseCount > 0 ? ((winCount / (winCount + loseCount)) * 100).toFixed(0) : 0).toString(),
+            winCount: stats.winCount,
+            loseCount: stats.loseCount,
+            dodgeCount: stats.dodgeCount,
+            missCount: stats.missCount,
+            winRate: winRate,
             isProfitable: finalCapital >= initialCapital,
             achievements: achievements
         });
+
+        console.info('[Result] setData completed, WinRate:', winRate);
     },
 
     // 获取称号

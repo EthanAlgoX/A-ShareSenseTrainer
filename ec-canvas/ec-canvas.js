@@ -1,5 +1,5 @@
 import WxCanvas from './wx-canvas';
-import * as echarts from './echarts';
+const echarts = require('./echarts');
 
 let ctx;
 
@@ -55,6 +55,7 @@ Component({
   },
 
   ready: function () {
+    console.info('[ec-canvas] Component Ready');
     // Disable prograssive because drawImage doesn't support DOM as parameter
     // See https://developers.weixin.qq.com/miniprogram/dev/api/canvas/CanvasContext.drawImage.html
     echarts.registerPreprocessor(option => {
@@ -77,6 +78,7 @@ Component({
     }
 
     if (!this.data.ec.lazyLoad) {
+      console.info('[ec-canvas] auto-init started');
       this.init();
     }
   },
@@ -134,25 +136,33 @@ Component({
             canvas: canvas,
             width: res.width,
             height: res.height,
-            canvasDpr: canvasDpr // 增加了dpr，可方便外面echarts.init
+            dpr: canvasDpr, // 统一使用 dpr
+            echarts: echarts
           });
         }
       }).exec();
     },
 
     initByNewWay(callback) {
+      console.info('[ec-canvas] Starting initByNewWay');
       // version >= 2.9.0：使用新的方式初始化
       const query = wx.createSelectorQuery().in(this)
       query
         .select('.ec-canvas')
         .fields({ node: true, size: true })
         .exec(res => {
+          console.info('[ec-canvas] SelectorQuery result:', res);
           const canvasNode = res[0].node
+          if (!canvasNode) {
+            console.error('[ec-canvas] Canvas node not found! Check if component is hidden or height is 0');
+            return;
+          }
           this.canvasNode = canvasNode
 
           const canvasDpr = wx.getSystemInfoSync().pixelRatio
           const canvasWidth = res[0].width
           const canvasHeight = res[0].height
+          console.info(`[ec-canvas] Canvas size: ${canvasWidth}x${canvasHeight} @ ${canvasDpr}`);
 
           const ctx = canvasNode.getContext('2d')
 
@@ -185,7 +195,8 @@ Component({
               canvas: canvas,
               width: canvasWidth,
               height: canvasHeight,
-              dpr: canvasDpr
+              dpr: canvasDpr,
+              echarts: echarts
             })
           }
         })
