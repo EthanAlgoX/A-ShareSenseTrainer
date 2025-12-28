@@ -1,0 +1,6 @@
+{
+    "navigationBarTitleText": "操盘训练",
+    "usingComponents": {
+        "ec-canvas": "../../ec-canvas/ec-canvas"
+    }
+}

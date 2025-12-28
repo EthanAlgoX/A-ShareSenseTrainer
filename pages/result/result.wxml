@@ -1,0 +1,71 @@
+<!--pages/result/result.wxml-->
+<view class="container">
+  <!-- 背景装饰 -->
+  <view class="bg-particles">
+    <view class="particle" wx:for="{{particles}}" wx:key="index" style="left:{{item.left}};top:{{item.top}};animation-delay:{{item.delay}}"></view>
+  </view>
+
+  <!-- 称号徽章 -->
+  <view class="badge-section animate-fadeIn">
+    <view class="badge {{badgeClass}}">
+      <text class="badge-emoji">{{badgeEmoji}}</text>
+    </view>
+    <text class="badge-title">{{badgeTitle}}</text>
+    <text class="badge-subtitle">{{badgeSubtitle}}</text>
+  </view>
+
+  <!-- 收益展示 -->
+  <view class="profit-section animate-fadeIn">
+    <view class="profit-card">
+      <text class="profit-label">最终资产</text>
+      <text class="profit-value {{profitClass}}">¥{{finalCapital}}</text>
+      <view class="profit-change-row">
+        <text class="profit-change {{profitChangeClass}}">{{profitChangeText}}</text>
+        <text class="profit-percent {{profitChangeClass}}">({{profitPercent}})</text>
+      </view>
+    </view>
+  </view>
+
+  <!-- 统计数据 -->
+  <view class="stats-section animate-fadeIn">
+    <view class="stats-title">操作统计</view>
+    <view class="stats-grid">
+      <view class="stat-item">
+        <text class="stat-value rise">{{buyCount}}</text>
+        <text class="stat-label">买入次数</text>
+      </view>
+      <view class="stat-item">
+        <text class="stat-value">{{waitCount}}</text>
+        <text class="stat-label">空仓次数</text>
+      </view>
+      <view class="stat-item">
+        <text class="stat-value gold">{{winCount}}</text>
+        <text class="stat-label">盈利次数</text>
+      </view>
+      <view class="stat-item">
+        <text class="stat-value fall">{{loseCount}}</text>
+        <text class="stat-label">亏损次数</text>
+      </view>
+    </view>
+    <view class="stats-highlight">
+      <view class="highlight-item" wx:if="{{dodgeCount > 0}}">
+        <text class="highlight-icon">🛡️</text>
+        <text class="highlight-text">成功躲避暴跌 {{dodgeCount}} 次</text>
+      </view>
+      <view class="highlight-item" wx:if="{{missCount > 0}}">
+        <text class="highlight-icon">😫</text>
+        <text class="highlight-text">踏空行情 {{missCount}} 次</text>
+      </view>
+    </view>
+  </view>
+
+  <!-- 操作按钮 -->
+  <view class="action-section">
+    <button class="btn-primary" bindtap="playAgain">
+      <text>再来一局</text>
+    </button>
+    <button class="btn-secondary" open-type="share">
+      <text>分享战绩</text>
+    </button>
+  </view>
+</view>

@@ -1,0 +1,64 @@
+<!--pages/welcome/welcome.wxml-->
+<view class="container">
+  <!-- 背景装饰 -->
+  <view class="bg-decoration">
+    <view class="orbit orbit-1"></view>
+    <view class="orbit orbit-2"></view>
+    <view class="orbit orbit-3"></view>
+  </view>
+
+  <!-- Logo区域 -->
+  <view class="logo-section animate-fadeIn">
+    <view class="logo-icon">
+      <text class="logo-text">📈</text>
+    </view>
+    <view class="title-group">
+      <text class="main-title">A股盘感训练营</text>
+      <text class="sub-title">A-Share Sniper</text>
+    </view>
+  </view>
+
+  <!-- 游戏说明 -->
+  <view class="info-card animate-fadeIn">
+    <view class="info-row">
+      <view class="info-item">
+        <text class="info-value">¥100,000</text>
+        <text class="info-label">初始本金</text>
+      </view>
+      <view class="divider"></view>
+      <view class="info-item">
+        <text class="info-value">10</text>
+        <text class="info-label">交易回合</text>
+      </view>
+    </view>
+  </view>
+
+  <!-- 规则说明 -->
+  <view class="rules-section animate-fadeIn">
+    <view class="rule-item">
+      <text class="rule-icon">🔴</text>
+      <text class="rule-text">全仓买入 - 认为明日必涨</text>
+    </view>
+    <view class="rule-item">
+      <text class="rule-icon">⚪</text>
+      <text class="rule-text">空仓观望 - 保持现金不动</text>
+    </view>
+    <view class="rule-item">
+      <text class="rule-icon">💡</text>
+      <text class="rule-text">空仓也是一种操作</text>
+    </view>
+  </view>
+
+  <!-- 开始按钮 -->
+  <view class="button-section">
+    <button class="start-btn animate-pulse" bindtap="startGame">
+      <text class="btn-text">开始挑战</text>
+      <text class="btn-arrow">→</text>
+    </button>
+  </view>
+
+  <!-- 底部slogan -->
+  <view class="footer">
+    <text class="slogan">看看你是股神还是韭菜</text>
+  </view>
+</view>
