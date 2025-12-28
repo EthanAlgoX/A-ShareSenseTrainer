@@ -220,7 +220,7 @@ Page({
         const profitPercent = ((ratio - 1) * 100).toFixed(2);
 
         return {
-            title: `股神养成记：博弈清算凭证，净值变动 ${profitPercent}%！`,
+            title: `K线猜猜乐：博弈清算凭证，净值变动 ${profitPercent}%！`,
             query: 'from=timeline'
         };
     }

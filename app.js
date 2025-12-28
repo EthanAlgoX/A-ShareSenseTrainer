@@ -27,7 +27,7 @@ App({
   },
 
   onLaunch() {
-    console.log('股神养成记启动');
+    console.log('K线猜猜乐启动');
     this.resetGame(); // 初始化第一轮种子
   },
 

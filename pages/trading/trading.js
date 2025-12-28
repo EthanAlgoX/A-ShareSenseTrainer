@@ -490,7 +490,7 @@ Page({
     onShareTimeline() {
         const { currentLevel } = app.globalData;
         return {
-            title: `股神养成记：博弈第 ${currentLevel} 关，风险是存在的唯一意义。`,
+            title: `K线猜猜乐：博弈第 ${currentLevel} 关，风险是存在的唯一意义。`,
             query: 'from=timeline'
         };
     }
