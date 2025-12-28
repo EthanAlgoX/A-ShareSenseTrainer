@@ -2,9 +2,9 @@
 const app = getApp();
 const stockData = require('../../data/stockData.js');
 const chartHelper = require('../../utils/chartHelper.js');
-import * as echarts from '../../ec-canvas/echarts';
 
 let chart = null;
+let echarts = null; // 将从 ec-canvas 组件获取
 
 Page({
     data: {
@@ -70,8 +70,11 @@ Page({
 
     // 初始化图表
     initChart(canvas, width, height, dpr) {
-        // 不需要 require echarts，ec-canvas 组件已经包含了
-        // 直接使用 canvas 参数创建图表实例
+        // 懒加载 echarts
+        if (!echarts) {
+            echarts = require('../../ec-canvas/echarts');
+        }
+
         chart = echarts.init(canvas, null, {
             width: width,
             height: height,
