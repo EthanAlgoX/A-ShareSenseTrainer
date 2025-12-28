@@ -1,7 +1,13 @@
 /* pages/result/result.wxss */
 .container {
-  padding: 40rpx 32rpx;
+  min-height: 100vh;
+  padding: 60rpx 40rpx;
   background: #0B0B15;
+  display: flex;
+  flex-direction: column;
+  justify-content: center; /* 垂直居中 */
+  align-items: center;    /* 水平居中 */
+  box-sizing: border-box;
 }
 
 /* 背景粒子 */
@@ -23,13 +29,14 @@
 /* 核心报告卡片 */
 .report-card {
   width: 100%;
-  padding: 40rpx;
+  max-width: 650rpx; /* 限制最大宽度，在大屏上更美观 */
+  padding: 50rpx 40rpx;
   display: flex;
   flex-direction: column;
   align-items: center;
   position: relative;
   overflow: hidden;
-  margin-bottom: 30rpx;
+  margin-bottom: 40rpx;
   background: rgba(255, 255, 255, 0.03);
   z-index: 1;
 }
@@ -140,7 +147,8 @@
   grid-template-columns: 1fr 1fr 1fr 1fr;
   gap: 20rpx;
   width: 100%;
-  margin-bottom: 40rpx;
+  max-width: 650rpx;
+  margin-bottom: 60rpx;
   z-index: 1;
 }
 

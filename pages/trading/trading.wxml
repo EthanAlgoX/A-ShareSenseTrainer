@@ -54,8 +54,8 @@
         </view>
       </view>
       
-      <!-- ECharts 画布 -->
-      <view class="chart-canvas-box">
+      <!-- ECharts 画布 (使用 hidden 彻底防止原生组件穿透) -->
+      <view class="chart-canvas-box" hidden="{{showingResult}}">
         <ec-canvas id="kline-chart" canvas-id="kline-canvas" ec="{{ec}}" bind:init="onChartInit"></ec-canvas>
       </view>
     </view>

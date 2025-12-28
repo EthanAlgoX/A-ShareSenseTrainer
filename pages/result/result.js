@@ -26,6 +26,11 @@ Page({
     },
 
     onLoad() {
+        // 开启分享朋友圈
+        wx.showShareMenu({
+            withShareTicket: true,
+            menus: ['shareAppMessage', 'shareTimeline']
+        });
         this.generateParticles();
         this.calculateResult();
     },
