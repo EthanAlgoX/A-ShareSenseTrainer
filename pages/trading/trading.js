@@ -2,6 +2,7 @@
 const app = getApp();
 const stockData = require('../../data/stockData.js');
 const chartHelper = require('../../utils/chartHelper.js');
+import * as echarts from '../../ec-canvas/echarts';
 
 let chart = null;
 
@@ -69,7 +70,8 @@ Page({
 
     // 初始化图表
     initChart(canvas, width, height, dpr) {
-        const echarts = require('../../ec-canvas/echarts');
+        // 不需要 require echarts，ec-canvas 组件已经包含了
+        // 直接使用 canvas 参数创建图表实例
         chart = echarts.init(canvas, null, {
             width: width,
             height: height,
