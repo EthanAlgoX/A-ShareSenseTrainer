@@ -96,8 +96,11 @@ function generateKLines(startPrice, volatility, trend, seed, count, forcedMult =
         const low = Math.min(open, close) * (1 - rand() * volatility);
         const volume = Math.floor(1000000 + rand() * 9000000);
 
+        const date = new Date(baseDate);
+        date.setDate(date.getDate() + i);
+
         data.push({
-            date: `D-${i}`, // 简化日期展示
+            date: date.toISOString().split('T')[0],
             open: Number(open.toFixed(2)),
             close: Number(close.toFixed(2)),
             high: Number(high.toFixed(2)),

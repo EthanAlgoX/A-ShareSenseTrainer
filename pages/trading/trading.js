@@ -76,13 +76,22 @@ Page({
             levelData: levelData,
             stockName: levelData.name
         }, () => {
-            // 数据准备好后再初始化，确保 initChart 能拿到 this.data.levelData
-            this.initChartComponent();
+            // 给布局一点时间，确保容器高度已计算
+            setTimeout(() => {
+                this.initChartComponent();
+            }, 100);
         });
     },
 
     // 安全初始化组件
     initChartComponent() {
+        // 如果已经有实例且数据存在，优先尝试直接设置选项，提高性能并避免闪烁
+        if (this.chartInstance && this.data.levelData) {
+            const option = chartHelper.generateChartOption(this.data.levelData.history, false);
+            this.chartInstance.setOption(option, true);
+            return;
+        }
+
         const chartComponent = this.selectComponent('#kline-chart');
         if (chartComponent) {
             chartComponent.init((canvas, width, height, dpr) => {

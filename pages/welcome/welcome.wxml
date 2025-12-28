@@ -36,7 +36,7 @@
     <!-- 启动按钮 -->
     <view class="action-area animate-fade-in" style="animation-delay: 0.4s">
       <button class="start-btn" bindtap="startGame">
-        <text class="btn-text">接入市场序列</text>
+        <text class="btn-text">启动</text>
         <text class="btn-icon">⚡</text>
       </button>
       <text class="slogan-text">风险是生存唯一的筹码</text>
