@@ -1,6 +1,7 @@
 {
   "pages": [
     "pages/welcome/welcome",
+    "pages/talent/talent",
     "pages/trading/trading",
     "pages/result/result"
   ],

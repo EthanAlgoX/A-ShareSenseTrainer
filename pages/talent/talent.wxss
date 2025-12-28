@@ -1,0 +1,204 @@
+/* pages/talent/talent.wxss */
+
+.container {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-height: 100vh;
+  padding: 60rpx 32rpx;
+  background: linear-gradient(180deg, #0f0f1a 0%, #1a1a2e 50%, #16213e 100%);
+  overflow: hidden;
+}
+
+/* 背景光效 */
+.bg-glow {
+  position: absolute;
+  top: 20%;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 600rpx;
+  height: 600rpx;
+  background: radial-gradient(circle, rgba(255, 215, 0, 0.15) 0%, transparent 70%);
+  animation: glow-pulse 3s ease-in-out infinite;
+}
+
+@keyframes glow-pulse {
+  0%, 100% { opacity: 0.5; transform: translateX(-50%) scale(1); }
+  50% { opacity: 0.8; transform: translateX(-50%) scale(1.1); }
+}
+
+/* 标题区 */
+.header {
+  text-align: center;
+  margin-bottom: 60rpx;
+  z-index: 1;
+}
+
+.title {
+  display: block;
+  font-size: 48rpx;
+  font-weight: 700;
+  color: #ffd700;
+  margin-bottom: 16rpx;
+  text-shadow: 0 0 20rpx rgba(255, 215, 0, 0.5);
+}
+
+.subtitle {
+  display: block;
+  font-size: 26rpx;
+  color: rgba(255, 255, 255, 0.6);
+}
+
+/* 天赋卡片容器 */
+.talents-container {
+  display: flex;
+  flex-direction: column;
+  gap: 24rpx;
+  width: 100%;
+  margin-bottom: 60rpx;
+  z-index: 1;
+}
+
+/* 天赋卡片 */
+.talent-card {
+  position: relative;
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.08) 0%, rgba(255, 255, 255, 0.02) 100%);
+  border: 2rpx solid rgba(255, 255, 255, 0.1);
+  border-radius: 24rpx;
+  padding: 32rpx 28rpx;
+  transition: all 0.3s ease;
+  cursor: pointer;
+}
+
+.talent-card:active {
+  transform: scale(0.98);
+}
+
+.talent-card.selected {
+  border-color: #ffd700;
+  background: linear-gradient(135deg, rgba(255, 215, 0, 0.15) 0%, rgba(255, 215, 0, 0.05) 100%);
+  box-shadow: 0 0 30rpx rgba(255, 215, 0, 0.4);
+}
+
+/* 稀有度标签 */
+.rarity-badge {
+  position: absolute;
+  top: 16rpx;
+  right: 16rpx;
+  padding: 6rpx 16rpx;
+  border-radius: 20rpx;
+  font-size: 20rpx;
+}
+
+.rarity-text {
+  color: #ffffff;
+  font-weight: 600;
+}
+
+/* 图标 */
+.talent-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100rpx;
+  height: 100rpx;
+  margin: 0 auto 20rpx;
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 50%;
+}
+
+.icon-text {
+  font-size: 56rpx;
+}
+
+/* 名称 */
+.talent-name {
+  display: block;
+  font-size: 32rpx;
+  font-weight: 600;
+  color: #ffffff;
+  text-align: center;
+  margin-bottom: 12rpx;
+}
+
+/* 描述 */
+.talent-desc {
+  display: block;
+  font-size: 24rpx;
+  color: rgba(255, 255, 255, 0.7);
+  text-align: center;
+  line-height: 1.6;
+}
+
+/* 选中标记 */
+.check-mark {
+  position: absolute;
+  top: 16rpx;
+  left: 16rpx;
+  width: 48rpx;
+  height: 48rpx;
+  background: #ffd700;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  animation: check-bounce 0.3s ease-out;
+}
+
+@keyframes check-bounce {
+  0% { transform: scale(0); }
+  50% { transform: scale(1.2); }
+  100% { transform: scale(1); }
+}
+
+.check-icon {
+  font-size: 28rpx;
+  color: #0f0f1a;
+  font-weight: 700;
+}
+
+/* 操作区 */
+.action-section {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  z-index: 1;
+}
+
+.confirm-btn {
+  width: 100%;
+  height: 100rpx;
+  background: rgba(255, 255, 255, 0.1);
+  border: 2rpx solid rgba(255, 255, 255, 0.2);
+  border-radius: 50rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 32rpx;
+  font-weight: 600;
+  color: rgba(255, 255, 255, 0.5);
+  transition: all 0.3s;
+}
+
+.confirm-btn::after {
+  display: none;
+}
+
+.confirm-btn.active {
+  background: linear-gradient(135deg, #ffd700 0%, #ffaa00 100%);
+  border-color: #ffd700;
+  color: #0f0f1a;
+  box-shadow: 0 16rpx 40rpx rgba(255, 215, 0, 0.4);
+}
+
+.confirm-btn[disabled] {
+  opacity: 0.5;
+}
+
+.hint-text {
+  margin-top: 20rpx;
+  font-size: 22rpx;
+  color: rgba(255, 255, 255, 0.4);
+}

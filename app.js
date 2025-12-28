@@ -9,6 +9,8 @@ App({
     currentLevel: 1,
     // 总关卡数
     totalLevels: 10,
+    // 当前天赋
+    talent: null,
     // 操作历史记录
     operations: [],
     // 统计数据

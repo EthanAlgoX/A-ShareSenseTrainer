@@ -19,9 +19,9 @@ Page({
         // 添加点击反馈
         wx.vibrateShort({ type: 'light' });
 
-        // 跳转到交易页面
+        // 跳转到天赋选择页面
         wx.navigateTo({
-            url: '/pages/trading/trading'
+            url: '/pages/talent/talent'
         });
     }
 });

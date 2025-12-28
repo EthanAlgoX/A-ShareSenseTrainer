@@ -1,0 +1,56 @@
+<!--pages/talent/talent.wxml-->
+<view class="container">
+  <!-- 背景装饰 -->
+  <view class="bg-glow"></view>
+
+  <!-- 标题区 -->
+  <view class="header animate-fadeIn">
+    <text class="title">🎰 抽取操盘天赋</text>
+    <text class="subtitle">三选一，影响整局游戏</text>
+  </view>
+
+  <!-- 天赋卡片 -->
+  <view class="talents-container">
+    <view 
+      class="talent-card {{selectedTalent === item.id ? 'selected' : ''}} animate-fadeIn" 
+      wx:for="{{talents}}" 
+      wx:key="id"
+      bindtap="selectTalent"
+      data-id="{{item.id}}"
+      style="animation-delay: {{index * 0.1}}s"
+    >
+      <!-- 稀有度标签 -->
+      <view class="rarity-badge" style="background: {{item.rarityColor}}">
+        <text class="rarity-text">{{item.rarityName}}</text>
+      </view>
+
+      <!-- 图标 -->
+      <view class="talent-icon">
+        <text class="icon-text">{{item.icon}}</text>
+      </view>
+
+      <!-- 名称 -->
+      <text class="talent-name">{{item.name}}</text>
+
+      <!-- 描述 -->
+      <text class="talent-desc">{{item.description}}</text>
+
+      <!-- 选中标记 -->
+      <view class="check-mark" wx:if="{{selectedTalent === item.id}}">
+        <text class="check-icon">✓</text>
+      </view>
+    </view>
+  </view>
+
+  <!-- 确认按钮 -->
+  <view class="action-section">
+    <button 
+      class="confirm-btn {{selectedTalent ? 'active' : ''}}" 
+      bindtap="confirmTalent"
+      disabled="{{!selectedTalent}}"
+    >
+      <text>确认选择</text>
+    </button>
+    <text class="hint-text">选择后不可更改</text>
+  </view>
+</view>
