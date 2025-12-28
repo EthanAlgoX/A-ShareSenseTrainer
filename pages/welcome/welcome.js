@@ -30,7 +30,7 @@ Page({
      */
     onShareAppMessage() {
         return {
-            title: '《A股觉醒计划》：在回撤中生存，在波动中觉醒。',
+            title: '《股神养成记》：在回撤中生存，在波动中觉醒。',
             path: '/pages/welcome/welcome'
         };
     },
@@ -40,7 +40,7 @@ Page({
      */
     onShareTimeline() {
         return {
-            title: 'A股觉醒计划：系统已就绪，等待博弈序列接入点。',
+            title: '股神养成记：系统已就绪，等待博弈序列接入点。',
             query: 'from=timeline'
         };
     }

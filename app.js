@@ -27,7 +27,7 @@ App({
   },
 
   onLaunch() {
-    console.log('A股盘感训练营启动');
+    console.log('股神养成记启动');
     this.resetGame(); // 初始化第一轮种子
   },
 

@@ -202,8 +202,8 @@ Page({
         let changeDisplay = (changePercent * 100).toFixed(2);
         let newCapital = currentCapital;
 
-        // 计算新资金
-        if (choice === 'buy' || (choice === 'wait' && changePercent > 0)) {
+        // 计算新资金：只有买入操作，或者触发了庄家抬轿天赋的观望才有收益
+        if (choice === 'buy' || (choice === 'wait' && currentTalent?.id === 'banker')) {
             newCapital = currentCapital * (1 + changePercent);
         }
 
@@ -314,6 +314,7 @@ Page({
         }
 
         // 更新全局资金
+        console.info(`[Trading] Level ${app.globalData.currentLevel} End. Choice: ${choice}, Change: ${changeDisplay}%, Capital: ${currentCapital} -> ${newCapital}`);
         app.globalData.currentCapital = newCapital;
 
         // 记录操作
@@ -402,6 +403,7 @@ Page({
             });
         } else {
             // 进入下一关
+            console.info(`[Trading] Level Up: ${app.globalData.currentLevel} -> ${nextLevel}. Current Global Capital: ${app.globalData.currentCapital}`);
             app.globalData.currentLevel = nextLevel;
 
             this.setData({
@@ -488,7 +490,7 @@ Page({
     onShareTimeline() {
         const { currentLevel } = app.globalData;
         return {
-            title: `A股觉醒计划：博弈第 ${currentLevel} 关，风险是存在的唯一意义。`,
+            title: `股神养成记：博弈第 ${currentLevel} 关，风险是存在的唯一意义。`,
             query: 'from=timeline'
         };
     }

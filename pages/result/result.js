@@ -55,7 +55,8 @@ Page({
         const initialCapital = globalData.initialCapital;
         const stats = globalData.stats;
 
-        console.info('[Result] Calculating report with stats:', stats);
+        console.info(`[Result] Game Over. Final Capital: ${finalCapital}, Initial: ${initialCapital}`);
+        console.info('[Result] Full Stats snapshot:', stats);
 
         // 计算收益
         const profit = finalCapital - initialCapital;
@@ -219,7 +220,7 @@ Page({
         const profitPercent = ((ratio - 1) * 100).toFixed(2);
 
         return {
-            title: `A股觉醒计划：博弈清算凭证，净值变动 ${profitPercent}%！`,
+            title: `股神养成记：博弈清算凭证，净值变动 ${profitPercent}%！`,
             query: 'from=timeline'
         };
     }

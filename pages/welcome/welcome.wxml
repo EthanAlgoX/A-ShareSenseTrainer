@@ -15,8 +15,8 @@
       <view class="logo-circle animate-pulse">
         <text class="logo-symbol">🧬</text>
       </view>
-      <text class="main-title text-glow-gold">A股觉醒计划</text>
-      <text class="sub-title">A-SHARE AWAKENING</text>
+      <text class="main-title text-glow-gold">K线猜猜乐</text>
+      <text class="sub-title">K-LINE GUESS FUN</text>
       <view class="tag-badge">量子版本 3.0</view>
     </view>
 
