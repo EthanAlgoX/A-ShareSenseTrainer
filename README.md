@@ -89,4 +89,6 @@ python scripts/fetch_stock_data.py
 
 ## 📄 License
 
-MIT License
+AGPL 3.0 License - see [LICENSE](LICENSE) file for details
+
+This project is licensed under the GNU Affero General Public License v3.0, which requires that if you modify and deploy this software as a network service, you must make the source code available to users.
