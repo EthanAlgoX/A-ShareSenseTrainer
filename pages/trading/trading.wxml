@@ -56,7 +56,7 @@
       
       <!-- ECharts 画布 -->
       <view class="chart-canvas-box">
-        <ec-canvas id="kline-chart" canvas-id="kline-canvas" ec="{{ec}}"></ec-canvas>
+        <ec-canvas id="kline-chart" canvas-id="kline-canvas" ec="{{ec}}" bind:init="onChartInit"></ec-canvas>
       </view>
     </view>
   </view>

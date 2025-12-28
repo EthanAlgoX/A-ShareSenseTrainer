@@ -6,6 +6,7 @@ const soundHelper = require('../../utils/soundHelper.js');
 const newsData = require('../../data/newsData.js');
 
 // 移除全局 echarts 变量，改为在初始化时局部引入，避免渲染实例冲突
+const echarts = require('../../ec-canvas/echarts');
 
 Page({
     data: {
@@ -26,7 +27,7 @@ Page({
         resultAnimation: '',
         effectClass: '',
         ec: {
-            lazyLoad: true // 保持懒加载，由逻辑控制初始化
+            lazyLoad: false // 改为自动初始化，由组件触发 init 事件
         },
 
         // 趣味性增强
@@ -76,43 +77,38 @@ Page({
             levelData: levelData,
             stockName: levelData.name
         }, () => {
-            // 给布局一点时间，确保容器高度已计算
-            setTimeout(() => {
-                this.initChartComponent();
-            }, 100);
+            // 如果图表已存在，直接更新选项
+            if (this.chartInstance && this.data.levelData) {
+                this.updateChartData();
+            }
         });
     },
 
-    // 安全初始化组件
-    initChartComponent() {
-        // 如果已经有实例且数据存在，优先尝试直接设置选项，提高性能并避免闪烁
-        if (this.chartInstance && this.data.levelData) {
-            const option = chartHelper.generateChartOption(this.data.levelData.history, false);
-            this.chartInstance.setOption(option, true);
-            return;
-        }
+    // 图表初始化事件回调
+    onChartInit(e) {
+        const { canvas, width, height, dpr } = e.detail;
+        if (!this.data.levelData) return;
 
-        const chartComponent = this.selectComponent('#kline-chart');
-        if (chartComponent) {
-            chartComponent.init((canvas, width, height, dpr) => {
-                return this.initChart(canvas, width, height, dpr);
-            });
-        }
+        this.initChart(canvas, width, height, dpr);
+    },
+
+    // 封装图表数据更新逻辑
+    updateChartData() {
+        if (!this.chartInstance || !this.data.levelData) return;
+        const option = chartHelper.generateChartOption(this.data.levelData.history, false);
+        this.chartInstance.setOption(option, true);
     },
 
     // 初始化图表实例
     initChart(canvas, width, height, dpr) {
-        const echarts = require('../../ec-canvas/echarts');
-
-        // 将实例挂载到 this 提高稳定性，避免全局变量污染
+        // 使用页面顶部引入的 echarts
         this.chartInstance = echarts.init(canvas, null, {
             width: width,
             height: height,
             devicePixelRatio: dpr
         });
 
-        const option = chartHelper.generateChartOption(this.data.levelData.history, false);
-        this.chartInstance.setOption(option, true);
+        this.updateChartData();
 
         return this.chartInstance;
     },
@@ -453,5 +449,28 @@ Page({
         if (amount > initial * 1.05) return 'capital-up';
         if (amount < initial * 0.95) return 'capital-down';
         return '';
+    },
+
+    /**
+     * 用户点击右上角分享
+     */
+    onShareAppMessage() {
+        const { currentLevel, currentCapital } = app.globalData;
+        const profit = ((currentCapital - 100000) / 1000).toFixed(2);
+        return {
+            title: `【第${currentLevel}关】我在A股觉醒计划博弈，当前收益率 ${profit}%！`,
+            path: '/pages/welcome/welcome'
+        };
+    },
+
+    /**
+     * 分享到朋友圈
+     */
+    onShareTimeline() {
+        const { currentLevel } = app.globalData;
+        return {
+            title: `A股觉醒计划：博弈第 ${currentLevel} 关，风险是存在的唯一意义。`,
+            query: 'from=timeline'
+        };
     }
 });

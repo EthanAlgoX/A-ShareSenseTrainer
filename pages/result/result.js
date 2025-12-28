@@ -191,5 +191,19 @@ Page({
             path: '/pages/welcome/welcome',
             imageUrl: '' // 建议后续添加一张通用的分享图
         };
+    },
+
+    /**
+     * 分享到朋友圈
+     */
+    onShareTimeline() {
+        const globalData = app.globalData;
+        const ratio = globalData.currentCapital / globalData.initialCapital;
+        const profitPercent = ((ratio - 1) * 100).toFixed(2);
+
+        return {
+            title: `A股觉醒计划：博弈清算凭证，净值变动 ${profitPercent}%！`,
+            query: 'from=timeline'
+        };
     }
 });
