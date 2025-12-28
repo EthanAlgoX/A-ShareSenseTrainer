@@ -1,64 +1,45 @@
 <!--pages/welcome/welcome.wxml-->
 <view class="container">
-  <!-- 背景装饰 -->
-  <view class="bg-decoration">
-    <view class="orbit orbit-1"></view>
-    <view class="orbit orbit-2"></view>
-    <view class="orbit orbit-3"></view>
+  <!-- 动态背景层 -->
+  <view class="cyber-bg">
+    <view class="grid-line horizontal"></view>
+    <view class="grid-line vertical"></view>
+    <view class="particle p1"></view>
+    <view class="particle p2"></view>
   </view>
 
-  <!-- Logo区域 -->
-  <view class="logo-section animate-fadeIn">
-    <view class="logo-icon">
-      <text class="logo-text">📈</text>
-    </view>
-    <view class="title-group">
-      <text class="main-title">A股盘感训练营</text>
-      <text class="sub-title">A-Share Sniper</text>
-    </view>
-  </view>
-
-  <!-- 游戏说明 -->
-  <view class="info-card animate-fadeIn">
-    <view class="info-row">
-      <view class="info-item">
-        <text class="info-value">¥100,000</text>
-        <text class="info-label">初始本金</text>
+  <!-- 核心内容区 -->
+  <view class="content-wrapper">
+    <!-- LOGO 区 -->
+    <view class="logo-area animate-fade-in">
+      <view class="logo-circle animate-pulse">
+        <text class="logo-symbol">📈</text>
       </view>
-      <view class="divider"></view>
-      <view class="info-item">
-        <text class="info-value">10</text>
-        <text class="info-label">交易回合</text>
+      <text class="main-title text-glow-gold">A-SHARE</text>
+      <text class="sub-title">SENSE TRAINER</text>
+      <view class="tag-badge">VER 3.0</view>
+    </view>
+
+    <!-- 数据仪表盘 -->
+    <view class="glass-card stat-panel animate-fade-in" style="animation-delay: 0.2s">
+      <view class="stat-item">
+        <text class="label">INITIAL FUND</text>
+        <text class="value din-font text-glow-gold">¥100,000</text>
+      </view>
+      <view class="v-divider"></view>
+      <view class="stat-item">
+        <text class="label">TARGET</text>
+        <text class="value din-font">SURVIVE 10</text>
       </view>
     </view>
-  </view>
 
-  <!-- 规则说明 -->
-  <view class="rules-section animate-fadeIn">
-    <view class="rule-item">
-      <text class="rule-icon">🔴</text>
-      <text class="rule-text">全仓买入 - 认为明日必涨</text>
+    <!-- 启动按钮 -->
+    <view class="action-area animate-fade-in" style="animation-delay: 0.4s">
+      <button class="start-btn" bindtap="startGame">
+        <text class="btn-text">START ENGINE</text>
+        <text class="btn-icon">🚀</text>
+      </button>
+      <text class="slogan-text">ARE YOU READY FOR THE MARKET?</text>
     </view>
-    <view class="rule-item">
-      <text class="rule-icon">⚪</text>
-      <text class="rule-text">空仓观望 - 保持现金不动</text>
-    </view>
-    <view class="rule-item">
-      <text class="rule-icon">💡</text>
-      <text class="rule-text">空仓也是一种操作</text>
-    </view>
-  </view>
-
-  <!-- 开始按钮 -->
-  <view class="button-section">
-    <button class="start-btn animate-pulse" bindtap="startGame">
-      <text class="btn-text">开始挑战</text>
-      <text class="btn-arrow">→</text>
-    </button>
-  </view>
-
-  <!-- 底部slogan -->
-  <view class="footer">
-    <text class="slogan">看看你是股神还是韭菜</text>
   </view>
 </view>

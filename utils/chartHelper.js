@@ -3,13 +3,13 @@
  * 用于生成 A 股风格的 K 线图配置
  */
 
-// A股颜色规范
+// A股颜色规范 (Neon Cyber-Finance)
 const COLORS = {
-    rise: '#ef232a',    // 涨 - 红色
-    fall: '#14b143',    // 跌 - 绿色
-    ma5: '#f9c80e',     // MA5 - 黄色
-    ma10: '#9b5de5',    // MA10 - 紫色
-    ma20: '#00bbf9',    // MA20 - 蓝色
+    rise: '#FF4D4D',    // 涨 - 霓虹红
+    fall: '#00E676',    // 跌 - 霓虹绿
+    ma5: '#FFD700',     // MA5 - 金色
+    ma10: '#00F0FF',    // MA10 - 科技蓝
+    ma20: '#9b5de5',    // MA20 - 紫色
     grid: 'rgba(255, 255, 255, 0.05)',
     text: 'rgba(255, 255, 255, 0.6)',
     axis: 'rgba(255, 255, 255, 0.1)'

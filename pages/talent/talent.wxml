@@ -1,56 +1,58 @@
 <!--pages/talent/talent.wxml-->
 <view class="container">
-  <!-- 背景装饰 -->
-  <view class="bg-glow"></view>
-
-  <!-- 标题区 -->
-  <view class="header animate-fadeIn">
-    <text class="title">🎰 抽取操盘天赋</text>
-    <text class="subtitle">三选一，影响整局游戏</text>
+  <!-- 背景粒子 -->
+  <view class="cyber-bg">
+    <view class="particle p3"></view>
   </view>
 
-  <!-- 天赋卡片 -->
+  <!-- 标题区 -->
+  <view class="header animate-fade-in">
+    <view class="step-badge">PRE-MARKET</view>
+    <text class="title text-glow-gold">SELECT TALENT</text>
+    <text class="subtitle">CHOOSE YOUR STRATEGY WISELY</text>
+  </view>
+
+  <!-- 天赋卡片容器 -->
   <view class="talents-container">
     <view 
-      class="talent-card {{selectedTalent === item.id ? 'selected' : ''}} animate-fadeIn" 
+      class="talent-card {{selectedTalent === item.id ? 'selected' : ''}} animate-fade-in rarity-{{item.rarity}}" 
       wx:for="{{talents}}" 
       wx:key="id"
       bindtap="selectTalent"
       data-id="{{item.id}}"
       style="animation-delay: {{index * 0.1}}s"
     >
-      <!-- 稀有度标签 -->
-      <view class="rarity-badge" style="background: {{item.rarityColor}}">
+      <!-- 全息扫描线 -->
+      <view class="scan-line"></view>
+      
+      <!-- 稀有度角标 -->
+      <view class="rarity-badge">
         <text class="rarity-text">{{item.rarityName}}</text>
       </view>
 
-      <!-- 图标 -->
-      <view class="talent-icon">
-        <text class="icon-text">{{item.icon}}</text>
+      <!-- 内容区 -->
+      <view class="card-content">
+        <view class="talent-icon-box">
+          <text class="icon-text">{{item.icon}}</text>
+        </view>
+        <text class="talent-name">{{item.name}}</text>
+        <view class="divider"></view>
+        <text class="talent-desc">{{item.description}}</text>
       </view>
 
-      <!-- 名称 -->
-      <text class="talent-name">{{item.name}}</text>
-
-      <!-- 描述 -->
-      <text class="talent-desc">{{item.description}}</text>
-
-      <!-- 选中标记 -->
-      <view class="check-mark" wx:if="{{selectedTalent === item.id}}">
-        <text class="check-icon">✓</text>
-      </view>
+      <!-- 选中态边框光效 -->
+      <view class="glow-border" wx:if="{{selectedTalent === item.id}}"></view>
     </view>
   </view>
 
   <!-- 确认按钮 -->
-  <view class="action-section">
+  <view class="action-section animate-fade-in" style="animation-delay: 0.3s">
     <button 
       class="confirm-btn {{selectedTalent ? 'active' : ''}}" 
       bindtap="confirmTalent"
       disabled="{{!selectedTalent}}"
     >
-      <text>确认选择</text>
+      <text class="btn-text">CONFIRM SELECTION</text>
     </button>
-    <text class="hint-text">选择后不可更改</text>
   </view>
 </view>

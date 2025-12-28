@@ -1,80 +1,117 @@
 <!--pages/trading/trading.wxml-->
 <view class="container">
-  <!-- 顶部信息栏 -->
-  <view class="header-bar">
-    <view class="level-info">
-      <text class="level-label">第</text>
-      <text class="level-num">{{currentLevel}}</text>
-      <text class="level-label">/{{totalLevels}} 关</text>
+  <!-- 背景粒子 -->
+  <view class="cyber-bg">
+    <view class="particle p1" style="top: 20%; left: 80%; width: 200rpx; height: 200rpx; animation-duration: 15s;"></view>
+    <view class="particle p2" style="bottom: 30%; left: 10%; width: 300rpx; height: 300rpx; animation-duration: 25s;"></view>
+  </view>
+
+  <!-- 顶部状态栏 -->
+  <view class="status-bar animate-fade-in">
+    <view class="status-item">
+      <text class="label">LEVEL</text>
+      <view class="value-box">
+        <text class="value din-font">{{currentLevel}}</text>
+        <text class="sub">/{{totalLevels}}</text>
+      </view>
     </view>
-    <view class="capital-info">
-      <text class="capital-label">总资产</text>
-      <text class="capital-value {{capitalClass}}">¥{{capitalDisplay}}</text>
+    
+    <view class="status-item capital">
+      <text class="label">ASSETS</text>
+      <text class="value din-font {{capitalClass}}">¥{{capitalDisplay}}</text>
     </view>
   </view>
 
-  <!-- K线图表区 -->
-  <view class="chart-section">
-    <!-- 天赋显示 -->
-    <view class="talent-badge" wx:if="{{currentTalent}}">
-      <text class="talent-badge-icon">{{currentTalent.icon}}</text>
-      <text class="talent-badge-name">{{currentTalent.name}}</text>
-    </view>
-
-    <!-- 小道消息滚动条 -->
-    <view class="news-ticker">
-      <view class="news-content">
-        <text class="news-text">{{currentNews}}</text>
+  <!-- 核心交互区 -->
+  <view class="main-stage animate-fade-in" style="animation-delay: 0.2s">
+    <!-- 信息HUD -->
+    <view class="hud-layer">
+      <!-- 左侧：天赋 -->
+      <view class="talent-pill glass-card-light" wx:if="{{currentTalent}}">
+        <text class="icon">{{currentTalent.icon}}</text>
+        <text class="name">{{currentTalent.name}}</text>
+      </view>
+      
+      <!-- 右侧：股票代号 -->
+      <view class="stock-pill glass-card-light">
+        <text class="code din-font">CODE</text>
+        <text class="name">{{stockName}}</text>
       </view>
     </view>
 
-    <view class="chart-header">
-      <text class="chart-title">{{stockName}}</text>
-      <text class="chart-hint">观察60天走势，预测明日涨跌</text>
-    </view>
-    <view class="chart-container">
-      <ec-canvas id="kline-chart" canvas-id="kline-canvas" ec="{{ec}}"></ec-canvas>
-    </view>
-  </view>
-
-  <!-- 决策按钮区 -->
-  <view class="action-section" wx:if="{{!showingResult}}">
-    <view class="action-hint">你的决策</view>
-    <view class="action-buttons">
-      <button class="action-btn btn-buy" bindtap="handleBuy" disabled="{{isProcessing}}">
-        <text class="btn-icon">🔴</text>
-        <text class="btn-label">全仓买入</text>
-        <text class="btn-desc">看涨明日</text>
-      </button>
-      <button class="action-btn btn-wait" bindtap="handleWait" disabled="{{isProcessing}}">
-        <text class="btn-icon">⚪</text>
-        <text class="btn-label">空仓观望</text>
-        <text class="btn-desc">保持现金</text>
-      </button>
-    </view>
-  </view>
-
-  <!-- 结果展示区 -->
-  <view class="result-section {{resultAnimation}}" wx:if="{{showingResult}}">
-    <view class="result-card {{resultType}}">
-      <text class="result-emoji">{{resultEmoji}}</text>
-      <text class="result-title">{{resultTitle}}</text>
-      <text class="result-change {{resultChangeClass}}">{{resultChangeText}}</text>
-      <text class="result-message">{{resultMessage}}</text>
-      <view class="result-quote" wx:if="{{stockQuote}}">
-        <text class="quote-text">{{stockQuote}}</text>
+    <!-- 图表容器 -->
+    <view class="chart-wrapper glass-card">
+      <!-- 顶部新闻条 -->
+      <view class="news-ticker-cyber">
+        <view class="news-icon-box">
+          <text class="icon-pulse">🔴</text>
+          <text class="icon-text">NEWS</text>
+        </view>
+        <view class="news-track">
+          <view class="news-scroller">
+            <text class="news-item">{{currentNews}}</text>
+          </view>
+        </view>
+      </view>
+      
+      <!-- ECharts 画布 -->
+      <view class="chart-canvas-box">
+        <ec-canvas id="kline-chart" canvas-id="kline-canvas" ec="{{ec}}"></ec-canvas>
       </view>
     </view>
   </view>
 
-  <!-- Loading 遮罩 -->
-  <view class="loading-overlay" wx:if="{{isProcessing}}">
-    <view class="loading-content">
-      <view class="loading-spinner"></view>
-      <text class="loading-text">揭晓中...</text>
+  <!-- 底部操作栏 -->
+  <view class="control-deck animate-fade-in" style="animation-delay: 0.4s" wx:if="{{!showingResult}}">
+    <view class="hint-text">PREDICT MARKET MOVEMENT</view>
+    <view class="button-group">
+      <button class="cyber-btn btn-long" bindtap="handleBuy" disabled="{{isProcessing}}">
+        <view class="btn-inner">
+          <text class="icon">📈</text>
+          <view class="text-group">
+            <text class="main">LONG</text>
+            <text class="sub">ALL IN</text>
+          </view>
+        </view>
+      </button>
+
+      <button class="cyber-btn btn-wait" bindtap="handleWait" disabled="{{isProcessing}}">
+        <view class="btn-inner">
+          <text class="icon">🛡️</text>
+          <view class="text-group">
+            <text class="main">WAIT</text>
+            <text class="sub">HOLD CASH</text>
+          </view>
+        </view>
+      </button>
     </view>
   </view>
 
-  <!-- 背景特效 -->
+  <!-- --- 结果覆盖层 --- -->
+  <view class="result-overlay {{resultAnimation}}" wx:if="{{showingResult}}">
+    <view class="result-glass-card {{resultType}}">
+      <view class="result-header">
+        <text class="emoji">{{resultEmoji}}</text>
+        <text class="title">{{resultTitle}}</text>
+      </view>
+      
+      <view class="result-value">
+        <text class="change din-font {{resultChangeClass}}">{{resultChangeText}}</text>
+        <text class="message">{{resultMessage}}</text>
+      </view>
+
+      <view class="quote-box" wx:if="{{stockQuote}}">
+        <text class="quote">"{{stockQuote}}"</text>
+      </view>
+    </view>
+  </view>
+
+  <!-- 全局 Loading -->
+  <view class="cyber-loader" wx:if="{{isProcessing}}">
+    <view class="loader-ring"></view>
+    <text class="loader-text">ANALYZING...</text>
+  </view>
+
+  <!-- 特效层 -->
   <view class="effect-bg {{effectClass}}"></view>
 </view>

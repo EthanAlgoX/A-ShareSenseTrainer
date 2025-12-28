@@ -1,85 +1,85 @@
 <!--pages/result/result.wxml-->
 <view class="container">
-  <!-- 背景装饰 -->
-  <view class="bg-particles">
-    <view class="particle" wx:for="{{particles}}" wx:key="index" style="left:{{item.left}};top:{{item.top}};animation-delay:{{item.delay}}"></view>
+  <!-- 背景粒子 -->
+  <view class="cyber-bg">
+    <view class="particle p3"></view>
   </view>
 
-  <!-- 称号徽章 -->
-  <view class="badge-section animate-fadeIn">
-    <view class="badge {{badgeClass}}">
-      <text class="badge-emoji">{{badgeEmoji}}</text>
+  <!-- 上部分：核心证书区 -->
+  <view class="report-card glass-card animate-fade-in">
+    <view class="report-header">
+      <text class="report-title">TRADING SESSION REPORT</text>
+      <text class="report-date">{{finalCapital >= 100000 ? 'PROFITABLE' : 'LIQUIDATED'}}</text>
     </view>
-    <text class="badge-title">{{badgeTitle}}</text>
-    <text class="badge-subtitle">{{badgeSubtitle}}</text>
+
+    <!-- 收益数字 -->
+    <view class="profit-display">
+      <view class="label">FINAL ASSETS</view>
+      <text class="value din-font {{profitClass}}">¥{{finalCapital}}</text>
+      <view class="change-tag {{profitChangeClass}}">
+        <text>{{profitChangeText}} ({{profitPercent}})</text>
+      </view>
+    </view>
+
+    <!-- 称号徽章 (盖章效果) -->
+    <view class="badge-stamp animate-bounce-in">
+      <view class="stamp-inner {{badgeClass}}">
+        <text class="emoji">{{badgeEmoji}}</text>
+      </view>
+      <view class="badge-info">
+        <text class="rank">RANKING</text>
+        <text class="name text-glow-gold">{{badgeTitle}}</text>
+      </view>
+    </view>
+    
+    <view class="divider-line"></view>
+
+    <text class="quote-text">{{badgeSubtitle}}</text>
   </view>
 
-  <!-- 收益展示 -->
-  <view class="profit-section animate-fadeIn">
-    <view class="profit-card">
-      <text class="profit-label">最终资产</text>
-      <text class="profit-value {{profitClass}}">¥{{finalCapital}}</text>
-      <view class="profit-change-row">
-        <text class="profit-change {{profitChangeClass}}">{{profitChangeText}}</text>
-        <text class="profit-percent {{profitChangeClass}}">({{profitPercent}})</text>
-      </view>
+  <!-- 中部分：数据网格 -->
+  <view class="stats-grid animate-fade-in" style="animation-delay: 0.2s">
+    <!-- 关键数据 -->
+    <view class="stat-box glass-card-light">
+      <text class="label">WIN RATE</text>
+      <text class="value din-font">{{winCount + loseCount > 0 ? ((winCount / (winCount + loseCount)) * 100).toFixed(0) : 0}}%</text>
     </view>
-  </view>
+    
+    <view class="stat-box glass-card-light">
+      <text class="label">DODGE</text>
+      <text class="value din-font">{{dodgeCount}}</text>
+    </view>
 
-  <!-- 统计数据 -->
-  <view class="stats-section animate-fadeIn">
-    <view class="stats-title">操作统计</view>
-    <view class="stats-grid">
-      <view class="stat-item">
-        <text class="stat-value rise">{{buyCount}}</text>
-        <text class="stat-label">买入次数</text>
-      </view>
-      <view class="stat-item">
-        <text class="stat-value">{{waitCount}}</text>
-        <text class="stat-label">空仓次数</text>
-      </view>
-      <view class="stat-item">
-        <text class="stat-value gold">{{winCount}}</text>
-        <text class="stat-label">盈利次数</text>
-      </view>
-      <view class="stat-item">
-        <text class="stat-value fall">{{loseCount}}</text>
-        <text class="stat-label">亏损次数</text>
-      </view>
+    <view class="stat-box glass-card-light">
+      <text class="label">TRADES</text>
+      <text class="value din-font">{{buyCount}}</text>
     </view>
-    <view class="stats-highlight">
-      <view class="highlight-item" wx:if="{{dodgeCount > 0}}">
-        <text class="highlight-icon">🛡️</text>
-        <text class="highlight-text">成功躲避暴跌 {{dodgeCount}} 次</text>
-      </view>
-      <view class="highlight-item" wx:if="{{missCount > 0}}">
-        <text class="highlight-icon">😫</text>
-        <text class="highlight-text">踏空行情 {{missCount}} 次</text>
-      </view>
-    </view>
-  </view>
 
-  <!-- 成就展示 -->
-  <view class="achievements-section animate-fadeIn" wx:if="{{achievements.length > 0}}">
-    <view class="achievements-title">🏆 解锁成就</view>
-    <view class="achievements-list">
-      <view class="achievement-item" wx:for="{{achievements}}" wx:key="index">
-        <text class="achievement-icon">{{item.icon}}</text>
-        <view class="achievement-info">
-          <text class="achievement-name">{{item.title}}</text>
-          <text class="achievement-desc">{{item.desc}}</text>
-        </view>
-      </view>
+    <view class="stat-box glass-card-light">
+      <text class="label">MISS</text>
+      <text class="value din-font">{{missCount}}</text>
     </view>
   </view>
 
-  <!-- 操作按钮 -->
-  <view class="action-section">
-    <button class="btn-primary" bindtap="playAgain">
-      <text>再来一局</text>
+  <!-- 下部分：成就列表 -->
+  <view class="achievements-area animate-fade-in" style="animation-delay: 0.4s" wx:if="{{achievements.length > 0}}">
+    <view class="section-title">ACHIEVEMENTS UNLOCKED</view>
+    <view class="achievement-card glass-card-light" wx:for="{{achievements}}" wx:key="index">
+      <view class="icon-box">{{item.icon}}</view>
+      <view class="info">
+        <text class="title">{{item.title}}</text>
+        <text class="desc">{{item.desc}}</text>
+      </view>
+    </view>
+  </view>
+
+  <!-- 底部操作区 -->
+  <view class="action-footer animate-fade-in" style="animation-delay: 0.6s">
+    <button class="cyber-btn btn-restart" bindtap="playAgain">
+      <text>RESTART SYSTEM</text>
     </button>
-    <button class="btn-secondary" open-type="share">
-      <text>分享战绩</text>
+    <button class="cyber-btn btn-share" open-type="share">
+      <text>SHARE REPORT</text>
     </button>
   </view>
 </view>

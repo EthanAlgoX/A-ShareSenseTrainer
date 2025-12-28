@@ -1,306 +1,236 @@
 /* pages/result/result.wxss */
-
 .container {
-  position: relative;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  min-height: 100vh;
-  padding: 60rpx 40rpx;
-  background: linear-gradient(180deg, #0f0f1a 0%, #1a1a2e 50%, #16213e 100%);
-  overflow: hidden;
+  padding: 40rpx 32rpx;
+  background: #0B0B15;
 }
 
 /* 背景粒子 */
-.bg-particles {
+.cyber-bg {
   position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
+  top: 0; left: 0; right: 0; bottom: 0;
   pointer-events: none;
+  z-index: 0;
 }
 
-.particle {
-  position: absolute;
-  width: 8rpx;
-  height: 8rpx;
-  background: rgba(255, 215, 0, 0.3);
-  border-radius: 50%;
-  animation: float 4s ease-in-out infinite;
+.particle.p3 {
+  width: 800rpx; height: 800rpx;
+  background: radial-gradient(circle, rgba(255, 255, 255, 0.03) 0%, transparent 60%);
+  top: 50%; left: 50%;
+  transform: translate(-50%, -50%);
+  animation: pulse-bg 5s infinite;
 }
 
-@keyframes float {
-  0%, 100% { transform: translateY(0) scale(1); opacity: 0.3; }
-  50% { transform: translateY(-40rpx) scale(1.5); opacity: 0.8; }
-}
-
-/* 徽章区域 */
-.badge-section {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  margin-bottom: 48rpx;
-}
-
-.badge {
-  width: 180rpx;
-  height: 180rpx;
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  margin-bottom: 24rpx;
-  animation: badge-pulse 2s ease-in-out infinite;
-}
-
-@keyframes badge-pulse {
-  0%, 100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(255, 215, 0, 0.4); }
-  50% { transform: scale(1.05); box-shadow: 0 0 40rpx 20rpx rgba(255, 215, 0, 0.2); }
-}
-
-.badge-legendary { background: linear-gradient(135deg, #ffd700 0%, #ffaa00 50%, #ffd700 100%); }
-.badge-epic { background: linear-gradient(135deg, #9b5de5 0%, #f15bb5 100%); }
-.badge-rare { background: linear-gradient(135deg, #00bbf9 0%, #00f5d4 100%); }
-.badge-gold { background: linear-gradient(135deg, #ffd700 0%, #f4a261 100%); }
-.badge-common { background: linear-gradient(135deg, #6a6a8a 0%, #8a8aaa 100%); }
-.badge-poor { background: linear-gradient(135deg, #14b143 0%, #0a8a30 100%); }
-.badge-worst { background: linear-gradient(135deg, #14b143 0%, #065a20 100%); }
-
-.badge-emoji {
-  font-size: 80rpx;
-}
-
-.badge-title {
-  font-size: 48rpx;
-  font-weight: 700;
-  color: #ffffff;
-  margin-bottom: 12rpx;
-}
-
-.badge-subtitle {
-  font-size: 26rpx;
-  color: rgba(255, 255, 255, 0.6);
-  text-align: center;
-}
-
-/* 收益展示 */
-.profit-section {
+/* 核心报告卡片 */
+.report-card {
   width: 100%;
-  margin-bottom: 40rpx;
-}
-
-.profit-card {
-  background: linear-gradient(135deg, rgba(255, 255, 255, 0.08) 0%, rgba(255, 255, 255, 0.02) 100%);
-  border: 1rpx solid rgba(255, 255, 255, 0.1);
-  border-radius: 24rpx;
   padding: 40rpx;
   display: flex;
   flex-direction: column;
   align-items: center;
+  position: relative;
+  overflow: hidden;
+  margin-bottom: 30rpx;
+  background: rgba(255, 255, 255, 0.03);
+  z-index: 1;
 }
 
-.profit-label {
-  font-size: 26rpx;
-  color: rgba(255, 255, 255, 0.5);
-  margin-bottom: 12rpx;
+.report-card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; width: 100%; height: 6rpx;
+  background: linear-gradient(90deg, var(--neon-gold), var(--neon-red));
 }
 
-.profit-value {
-  font-size: 56rpx;
-  font-weight: 700;
-  font-family: 'DIN Alternate', monospace;
-  margin-bottom: 16rpx;
-}
-
-.profit-value.profit-up { color: #ef232a; }
-.profit-value.profit-down { color: #14b143; }
-
-.profit-change-row {
-  display: flex;
-  align-items: center;
-  gap: 12rpx;
-}
-
-.profit-change {
-  font-size: 32rpx;
-  font-weight: 600;
-  font-family: 'DIN Alternate', monospace;
-}
-
-.profit-percent {
-  font-size: 28rpx;
-}
-
-.rise { color: #ef232a; }
-.fall { color: #14b143; }
-
-/* 统计数据 */
-.stats-section {
+.report-header {
   width: 100%;
+  display: flex;
+  justify-content: space-between;
   margin-bottom: 40rpx;
 }
 
-.stats-title {
-  font-size: 30rpx;
-  font-weight: 600;
-  color: #ffffff;
-  margin-bottom: 24rpx;
-  text-align: center;
+.report-title {
+  font-size: 20rpx; color: var(--text-muted); letter-spacing: 2rpx;
 }
 
-.stats-grid {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 16rpx;
-  margin-bottom: 24rpx;
+.report-date {
+  font-size: 20rpx; color: var(--neon-gold); font-weight: bold;
 }
 
-.stat-item {
-  background: rgba(255, 255, 255, 0.05);
-  border-radius: 16rpx;
-  padding: 24rpx 16rpx;
+/* 收益展示 */
+.profit-display {
   display: flex;
   flex-direction: column;
   align-items: center;
-}
-
-.stat-value {
-  font-size: 40rpx;
-  font-weight: 700;
-  color: #ffffff;
-  font-family: 'DIN Alternate', monospace;
-}
-
-.stat-value.rise { color: #ef232a; }
-.stat-value.fall { color: #14b143; }
-.stat-value.gold { color: #ffd700; }
-
-.stat-label {
-  font-size: 20rpx;
-  color: rgba(255, 255, 255, 0.5);
-  margin-top: 8rpx;
-}
-
-.stats-highlight {
-  display: flex;
-  flex-direction: column;
-  gap: 12rpx;
-}
-
-.highlight-item {
-  display: flex;
-  align-items: center;
-  background: rgba(255, 215, 0, 0.1);
-  border-radius: 12rpx;
-  padding: 16rpx 20rpx;
-}
-
-.highlight-icon {
-  font-size: 32rpx;
-  margin-right: 12rpx;
-}
-
-.highlight-text {
-  font-size: 26rpx;
-  color: rgba(255, 255, 255, 0.8);
-}
-
-/* 成就展示 */
-.achievements-section {
-  width: 100%;
   margin-bottom: 40rpx;
 }
 
-.achievements-title {
-  font-size: 30rpx;
-  font-weight: 600;
-  color: #ffd700;
-  margin-bottom: 24rpx;
-  text-align: center;
+.profit-display .label {
+  font-size: 24rpx; color: var(--text-muted); letter-spacing: 4rpx; margin-bottom: 8rpx;
 }
 
-.achievements-list {
-  display: flex;
-  flex-direction: column;
-  gap: 16rpx;
+.profit-display .value {
+  font-size: 64rpx; font-weight: 900; letter-spacing: 2rpx;
+  margin-bottom: 8rpx;
 }
 
-.achievement-item {
+.profit-up { color: var(--neon-red); text-shadow: 0 0 20rpx rgba(255, 77, 77, 0.3); }
+.profit-down { color: var(--neon-green); text-shadow: 0 0 20rpx rgba(0, 230, 118, 0.3); }
+
+.change-tag {
+  padding: 4rpx 16rpx;
+  border-radius: 8rpx;
+  font-size: 24rpx;
+  font-weight: bold;
+}
+
+.change-tag.rise { background: rgba(255, 77, 77, 0.1); color: var(--neon-red); }
+.change-tag.fall { background: rgba(0, 230, 118, 0.1); color: var(--neon-green); }
+
+/* 徽章盖章 */
+.badge-stamp {
   display: flex;
   align-items: center;
-  background: linear-gradient(135deg, rgba(255, 215, 0, 0.15) 0%, rgba(255, 215, 0, 0.05) 100%);
-  border: 1rpx solid rgba(255, 215, 0, 0.3);
-  border-radius: 16rpx;
-  padding: 20rpx 24rpx;
-  animation: achievement-glow 2s ease-in-out infinite;
+  margin-bottom: 30rpx;
+  transform: rotate(-5deg);
+  border: 4rpx solid rgba(255, 255, 255, 0.1);
+  padding: 20rpx;
+  border-radius: 20rpx;
+  background: rgba(0, 0, 0, 0.2);
 }
 
-.achievement-icon {
-  font-size: 48rpx;
+.stamp-inner {
+  width: 100rpx; height: 100rpx;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
   margin-right: 20rpx;
 }
 
-.achievement-info {
-  flex: 1;
+.stamp-inner .emoji { font-size: 50rpx; }
+
+/* 徽章背景 */
+.badge-legendary { background: linear-gradient(135deg, #FFD700, #FFAA00); }
+.badge-epic { background: linear-gradient(135deg, #9b5de5, #f15bb5); }
+.badge-rare { background: linear-gradient(135deg, #00bbf9, #00f5d4); }
+.badge-gold { background: linear-gradient(135deg, #FFD700, #f4a261); }
+.badge-common { background: linear-gradient(135deg, #6a6a8a, #8a8aaa); }
+.badge-poor { background: linear-gradient(135deg, #14b143, #0a8a30); }
+.badge-worst { background: linear-gradient(135deg, #065a20, #000); }
+
+.badge-info {
   display: flex;
   flex-direction: column;
 }
 
-.achievement-name {
-  font-size: 28rpx;
-  font-weight: 600;
-  color: #ffd700;
-  margin-bottom: 4rpx;
+.badge-info .rank { font-size: 20rpx; color: var(--text-muted); }
+.badge-info .name { font-size: 36rpx; font-weight: 900; letter-spacing: 2rpx; }
+
+.divider-line {
+  width: 100%; height: 2rpx; background: rgba(255, 255, 255, 0.1); margin-bottom: 24rpx;
 }
 
-.achievement-desc {
-  font-size: 22rpx;
-  color: rgba(255, 255, 255, 0.7);
+.quote-text {
+  font-size: 24rpx; color: var(--text-secondary); font-style: italic; text-align: center;
 }
 
-@keyframes achievement-glow {
-  0%, 100% { box-shadow: 0 0 10rpx rgba(255, 215, 0, 0.3); }
-  50% { box-shadow: 0 0 20rpx rgba(255, 215, 0, 0.6); }
+/* 数据网格 */
+.stats-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr;
+  gap: 20rpx;
+  width: 100%;
+  margin-bottom: 40rpx;
+  z-index: 1;
 }
 
-/* 操作按钮 */
-.action-section {
+.stat-box {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 20rpx 10rpx;
+}
+
+.stat-box .label { font-size: 18rpx; color: var(--text-muted); margin-bottom: 8rpx; }
+.stat-box .value { font-size: 32rpx; font-weight: bold; color: var(--text-primary); }
+
+/* 成就区 */
+.achievements-area {
+  width: 100%;
+  margin-bottom: 40rpx;
+  z-index: 1;
+}
+
+.section-title {
+  font-size: 20rpx; color: var(--text-muted); margin-bottom: 20rpx; letter-spacing: 2rpx;
+}
+
+.achievement-card {
+  display: flex;
+  align-items: center;
+  padding: 24rpx;
+  margin-bottom: 16rpx;
+}
+
+.achievement-card .icon-box {
+  font-size: 40rpx; margin-right: 24rpx;
+}
+
+.achievement-card .info {
+  display: flex; flex-direction: column;
+}
+
+.achievement-card .title {
+  font-size: 26rpx; color: var(--neon-gold); font-weight: bold;
+}
+
+.achievement-card .desc {
+  font-size: 22rpx; color: var(--text-secondary);
+}
+
+/* 底部按钮 */
+.action-footer {
   width: 100%;
   display: flex;
   flex-direction: column;
   gap: 20rpx;
+  z-index: 1;
 }
 
-.btn-primary {
-  width: 100%;
+.cyber-btn {
   height: 100rpx;
-  background: linear-gradient(135deg, #ef232a 0%, #ff6b6b 100%);
   border-radius: 50rpx;
   display: flex;
-  align-items: center;
   justify-content: center;
-  font-size: 32rpx;
-  font-weight: 600;
-  color: #ffffff;
+  align-items: center;
+  font-family: var(--font-num);
+  font-weight: bold;
+  font-size: 30rpx;
+  letter-spacing: 4rpx;
   border: none;
-  box-shadow: 0 16rpx 40rpx rgba(239, 35, 42, 0.4);
 }
 
-.btn-primary::after { display: none; }
+.cyber-btn::after { display: none; }
 
-.btn-secondary {
-  width: 100%;
-  height: 100rpx;
-  background: rgba(255, 255, 255, 0.1);
+.btn-restart {
+  background: var(--neon-blue);
+  color: #0B0B15;
+  box-shadow: 0 0 30rpx rgba(0, 240, 255, 0.3);
+}
+
+.btn-share {
+  background: rgba(255, 255, 255, 0.05);
   border: 1rpx solid rgba(255, 255, 255, 0.2);
-  border-radius: 50rpx;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 32rpx;
-  font-weight: 600;
-  color: #ffffff;
+  color: #FFF;
 }
 
-.btn-secondary::after { display: none; }
+/* 动画 */
+@keyframes bounce-in {
+  0% { transform: rotate(-5deg) scale(0); opacity: 0; }
+  60% { transform: rotate(-5deg) scale(1.1); opacity: 1; }
+  100% { transform: rotate(-5deg) scale(1); }
+}
+
+.animate-bounce-in {
+  animation: bounce-in 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+}
