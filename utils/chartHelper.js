@@ -96,7 +96,7 @@ function generateChartOption(data, showAnswer = false) {
             {
                 type: 'inside',
                 xAxisIndex: [0, 1],
-                start: 50,
+                start: 0,
                 end: 100,
                 zoomLock: false,
                 moveOnMouseWheel: true
@@ -104,7 +104,7 @@ function generateChartOption(data, showAnswer = false) {
             {
                 type: 'slider',
                 xAxisIndex: [0, 1],
-                start: 50,
+                start: 0,
                 end: 100,
                 height: 20,
                 bottom: 5,
@@ -119,8 +119,8 @@ function generateChartOption(data, showAnswer = false) {
 
         // 网格布局
         grid: [
-            { left: 50, right: 20, top: 50, height: '55%' },    // K线区
-            { left: 50, right: 20, top: '72%', height: '15%' }  // 成交量区
+            { left: 35, right: 10, top: 40, height: '60%' },    // K线区 - 增加高度，减少左右边距
+            { left: 35, right: 10, top: '75%', height: '15%' }  // 成交量区
         ],
 
         // X轴
