@@ -59,6 +59,20 @@
     </view>
   </view>
 
+  <!-- 成就展示 -->
+  <view class="achievements-section animate-fadeIn" wx:if="{{achievements.length > 0}}">
+    <view class="achievements-title">🏆 解锁成就</view>
+    <view class="achievements-list">
+      <view class="achievement-item" wx:for="{{achievements}}" wx:key="index">
+        <text class="achievement-icon">{{item.icon}}</text>
+        <view class="achievement-info">
+          <text class="achievement-name">{{item.title}}</text>
+          <text class="achievement-desc">{{item.desc}}</text>
+        </view>
+      </view>
+    </view>
+  </view>
+
   <!-- 操作按钮 -->
   <view class="action-section">
     <button class="btn-primary" bindtap="playAgain">

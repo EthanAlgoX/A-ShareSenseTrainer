@@ -1,5 +1,6 @@
 // pages/result/result.js
 const app = getApp();
+const soundHelper = require('../../utils/soundHelper.js');
 
 Page({
     data: {
@@ -18,7 +19,8 @@ Page({
         loseCount: 0,
         dodgeCount: 0,
         missCount: 0,
-        particles: []
+        particles: [],
+        achievements: []
     },
 
     onLoad() {
@@ -53,6 +55,9 @@ Page({
         // 获取称号
         const badge = this.getBadge(finalCapital, initialCapital, stats);
 
+        // 检测成就
+        const achievements = soundHelper.checkAchievements(globalData.operations, stats);
+
         this.setData({
             finalCapital: this.formatMoney(finalCapital),
             profitClass: profit >= 0 ? 'profit-up' : 'profit-down',
@@ -68,7 +73,8 @@ Page({
             winCount: stats.winCount,
             loseCount: stats.loseCount,
             dodgeCount: stats.dodgeCount,
-            missCount: stats.missCount
+            missCount: stats.missCount,
+            achievements: achievements
         });
     },
 

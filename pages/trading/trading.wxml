@@ -48,6 +48,9 @@
       <text class="result-title">{{resultTitle}}</text>
       <text class="result-change {{resultChangeClass}}">{{resultChangeText}}</text>
       <text class="result-message">{{resultMessage}}</text>
+      <view class="result-quote" wx:if="{{stockQuote}}">
+        <text class="quote-text">{{stockQuote}}</text>
+      </view>
     </view>
   </view>
 

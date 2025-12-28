@@ -2,6 +2,7 @@
 const app = getApp();
 const stockData = require('../../data/stockData.js');
 const chartHelper = require('../../utils/chartHelper.js');
+const soundHelper = require('../../utils/soundHelper.js');
 
 let chart = null;
 let echarts = null; // 将从 ec-canvas 组件获取
@@ -25,6 +26,11 @@ Page({
         resultAnimation: '',
         effectClass: '',
         ec: { onInit: null },
+
+        // 趣味性增强
+        stockQuote: '',
+        showAchievement: false,
+        achievement: null,
 
         // 当前关卡数据
         levelData: null
@@ -89,11 +95,13 @@ Page({
 
     // 买入操作
     handleBuy() {
+        soundHelper.playSound(soundHelper.SOUNDS.BUY);
         this.handleDecision('buy');
     },
 
     // 观望操作
     handleWait() {
+        soundHelper.playSound(soundHelper.SOUNDS.WAIT);
         this.handleDecision('wait');
     },
 
@@ -191,8 +199,20 @@ Page({
             newCapital
         );
 
+        // 播放结果音效
+        if (resultType === 'win') {
+            soundHelper.playSound(soundHelper.SOUNDS.WIN);
+        } else if (resultType === 'lose') {
+            soundHelper.playSound(soundHelper.SOUNDS.LOSE);
+        } else if (resultType === 'dodge') {
+            soundHelper.playSound(soundHelper.SOUNDS.DODGE);
+        }
+
         // 更新图表，显示答案
         this.updateChartWithAnswer();
+
+        // 获取随机股市名言
+        const quote = soundHelper.getRandomQuote();
 
         // 显示结果
         this.setData({
@@ -208,7 +228,8 @@ Page({
             resultChangeClass: changePercent >= 0 ? 'rise' : 'fall',
             resultMessage,
             resultAnimation: 'animate-fadeIn',
-            effectClass
+            effectClass,
+            stockQuote: quote
         });
 
         // 2.5秒后进入下一关
