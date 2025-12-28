@@ -316,3 +316,85 @@ ec-canvas {
   50% { opacity: 1; }
   100% { opacity: 0.5; transform: scale(1.5); }
 }
+
+/* 天赋显示 */
+.talent-badge {
+  display: flex;
+  align-items: center;
+  align-self: flex-start;
+  background: rgba(255, 215, 0, 0.15);
+  border: 1rpx solid rgba(255, 215, 0, 0.3);
+  border-radius: 30rpx;
+  padding: 6rpx 16rpx;
+  margin-bottom: 12rpx;
+}
+
+.talent-badge-icon {
+  font-size: 28rpx;
+  margin-right: 8rpx;
+}
+
+.talent-badge-name {
+  font-size: 22rpx;
+  font-weight: 600;
+  color: #ffd700;
+}
+
+/* 小道消息滚动条 */
+.news-ticker {
+  width: 100%;
+  height: 48rpx;
+  background: rgba(0, 0, 0, 0.4);
+  border-radius: 8rpx;
+  margin-bottom: 16rpx;
+  overflow: hidden;
+  position: relative;
+  border-left: 4rpx solid #ffd700;
+}
+
+.news-content {
+  position: absolute;
+  white-space: nowrap;
+  animation: ticker-scroll 15s linear infinite;
+  padding-left: 100%;
+  display: flex;
+  align-items: center;
+  height: 100%;
+}
+
+.news-text {
+  font-size: 24rpx;
+  color: #ffffff;
+  text-shadow: 0 1rpx 2rpx rgba(0,0,0,0.5);
+}
+
+@keyframes ticker-scroll {
+  0% { transform: translate3d(0, 0, 0); }
+  100% { transform: translate3d(-100%, 0, 0); }
+}
+
+/* 特殊特效 */
+.effect-bg.effect-gold-rain {
+  background: 
+    radial-gradient(circle at 30% 20%, rgba(255, 215, 0, 0.4) 0%, transparent 20%),
+    radial-gradient(circle at 70% 60%, rgba(255, 215, 0, 0.4) 0%, transparent 20%),
+    linear-gradient(180deg, rgba(255, 215, 0, 0.1) 0%, rgba(255, 0, 0, 0.2) 100%);
+  animation: gold-flash 0.5s infinite alternate;
+}
+
+@keyframes gold-flash {
+  from { opacity: 0.6; filter: brightness(1); }
+  to { opacity: 1; filter: brightness(1.5); }
+}
+
+.effect-bg.effect-dark-noodles {
+  background: 
+    linear-gradient(180deg, rgba(0, 20, 0, 0.9) 0%, rgba(0, 50, 0, 0.8) 100%),
+    repeating-linear-gradient(45deg, transparent, transparent 10px, rgba(0, 255, 0, 0.05) 10px, rgba(0, 255, 0, 0.05) 20px);
+  animation: dark-gloom 2s infinite alternate;
+}
+
+@keyframes dark-gloom {
+  from { opacity: 0.8; }
+  to { opacity: 1; }
+}

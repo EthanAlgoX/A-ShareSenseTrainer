@@ -15,6 +15,19 @@
 
   <!-- K线图表区 -->
   <view class="chart-section">
+    <!-- 天赋显示 -->
+    <view class="talent-badge" wx:if="{{currentTalent}}">
+      <text class="talent-badge-icon">{{currentTalent.icon}}</text>
+      <text class="talent-badge-name">{{currentTalent.name}}</text>
+    </view>
+
+    <!-- 小道消息滚动条 -->
+    <view class="news-ticker">
+      <view class="news-content">
+        <text class="news-text">{{currentNews}}</text>
+      </view>
+    </view>
+
     <view class="chart-header">
       <text class="chart-title">{{stockName}}</text>
       <text class="chart-hint">观察60天走势，预测明日涨跌</text>

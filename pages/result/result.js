@@ -168,19 +168,28 @@ Page({
     onShareAppMessage() {
         const globalData = app.globalData;
         const ratio = globalData.currentCapital / globalData.initialCapital;
-        const percent = ((ratio - 1) * 100).toFixed(1);
+        const profitPercent = ((ratio - 1) * 100).toFixed(2);
+        const talentName = globalData.talent ? globalData.talent.name : '无';
 
         let title = '';
-        if (ratio > 1) {
-            title = `我在A股盘感训练营赚了${percent}%！你能超过我吗？`;
+        const achievements = this.data.achievements;
+
+        if (achievements.length > 0 && achievements.some(a => a.title === '无敌战神')) {
+            title = `【封神榜】A股战神在此！收益${profitPercent}%，谁敢来战？`;
+        } else if (ratio > 1.2) {
+            title = `【龙虎榜】悟道了！${talentName}加持，狂赚${profitPercent}%！`;
+        } else if (ratio > 1) {
+            title = `盘感训练：小赚${profitPercent}%，${talentName}有点东西！`;
+        } else if (ratio < 0.8) {
+            title = `【比惨大会】亏了${Math.abs(profitPercent)}%，天台风好大...求安慰😭`;
         } else {
-            title = `我在A股盘感训练营亏了${Math.abs(percent)}%...快来救救我！`;
+            title = `A股模拟人生：我不亏就是赚！来试试你能活过几关？`;
         }
 
         return {
             title: title,
             path: '/pages/welcome/welcome',
-            imageUrl: '' // 可以添加分享图片
+            imageUrl: '' // 建议后续添加一张通用的分享图
         };
     }
 });

@@ -3,6 +3,7 @@ const app = getApp();
 const stockData = require('../../data/stockData.js');
 const chartHelper = require('../../utils/chartHelper.js');
 const soundHelper = require('../../utils/soundHelper.js');
+const newsData = require('../../data/newsData.js');
 
 let chart = null;
 let echarts = null; // 将从 ec-canvas 组件获取
@@ -32,6 +33,11 @@ Page({
         showAchievement: false,
         achievement: null,
 
+        // Roguelike 元素
+        currentTalent: null,
+        currentNews: '',
+        showBankruptcy: false,
+
         // 当前关卡数据
         levelData: null
     },
@@ -52,7 +58,9 @@ Page({
             totalLevels: globalData.totalLevels,
             currentCapital: globalData.currentCapital,
             capitalDisplay: this.formatMoney(globalData.currentCapital),
-            capitalClass: this.getCapitalClass(globalData.currentCapital)
+            capitalClass: this.getCapitalClass(globalData.currentCapital),
+            currentTalent: globalData.talent,
+            currentNews: newsData.getRandomNews()
         });
 
         this.loadLevelData();
@@ -121,15 +129,62 @@ Page({
 
     // 揭晓结果
     revealResult(choice) {
-        const { levelData, currentCapital } = this.data;
+        const { levelData, currentCapital, currentTalent } = this.data;
         const answer = levelData.answer;
         const preClose = levelData.history[levelData.history.length - 1].close;
 
-        // 计算涨跌幅
-        const changePercent = (answer.close - preClose) / preClose;
-        const changeDisplay = (changePercent * 100).toFixed(2);
+        // 计算原始涨跌幅
+        let changePercent = (answer.close - preClose) / preClose;
 
+        // --- 天赋效果应用 ---
+        let talentEffectTriggered = false;
+        let talentMessage = '';
+
+        // 1. 庄家抬轿：空仓也有收益
+        if (choice === 'wait' && currentTalent?.id === 'banker') {
+            changePercent = 0.01; // 1% 理财收益
+            talentEffectTriggered = true;
+            talentMessage = '【庄家抬轿】空仓获得1%收益';
+        }
+
+        // 2. 融资融券：盈亏翻倍
+        if (choice === 'buy' && currentTalent?.id === 'leverage') {
+            changePercent *= 2;
+            talentEffectTriggered = true;
+            talentMessage = '【融资融券】杠杆生效，盈亏翻倍';
+        }
+
+        // 3. 稳健投资：波动减半
+        if (choice === 'buy' && currentTalent?.id === 'steady') {
+            changePercent *= 0.5;
+            talentEffectTriggered = true;
+            talentMessage = '【稳健投资】波动减半';
+        }
+
+        // 4. 财神附体：首单必胜 (如果是第一关且亏损，强制改为小赚)
+        if (app.globalData.currentLevel === 1 && changePercent < 0 && choice === 'buy' && currentTalent?.id === 'lucky') {
+            changePercent = 0.02; // 强行改命
+            talentEffectTriggered = true;
+            talentMessage = '【财神附体】首单强行盈利';
+        }
+
+        let changeDisplay = (changePercent * 100).toFixed(2);
         let newCapital = currentCapital;
+
+        // 计算新资金
+        if (choice === 'buy' || (choice === 'wait' && changePercent > 0)) {
+            newCapital = currentCapital * (1 + changePercent);
+        }
+
+        // 5. 停牌重组：防暴跌（亏损超5%回退）
+        if (newCapital < currentCapital * 0.95 && currentTalent?.id === 'halt') {
+            newCapital = currentCapital;
+            changePercent = 0;
+            changeDisplay = '0.00';
+            talentEffectTriggered = true;
+            talentMessage = '【停牌重组】触发熔断，本金无损';
+        }
+
         let resultType = '';
         let resultEmoji = '';
         let resultTitle = '';
@@ -138,7 +193,6 @@ Page({
 
         if (choice === 'buy') {
             // 全仓买入
-            newCapital = currentCapital * (1 + changePercent);
             app.globalData.stats.buyCount++;
 
             if (changePercent > 0) {
@@ -147,35 +201,70 @@ Page({
                 resultEmoji = '🎉';
                 resultTitle = '吃肉啦！';
                 resultMessage = `成功抓住涨幅，收益 ${changeDisplay}%`;
-                effectClass = 'effect-rise';
+
+                // 玩梗：大涨特效
+                if (changePercent > 0.05) {
+                    effectClass = 'effect-gold-rain'; // 金币雨
+                    resultTitle = '会所嫩模！';
+                    resultEmoji = '🤑';
+                } else {
+                    effectClass = 'effect-rise';
+                }
+
                 app.globalData.stats.winCount++;
-            } else {
+            } else if (changePercent < 0) {
                 // 买入亏损
                 resultType = 'lose';
                 resultEmoji = '😭';
                 resultTitle = '关灯吃面...';
                 resultMessage = `追高被套，亏损 ${Math.abs(changeDisplay)}%`;
-                effectClass = 'effect-fall';
+
+                // 玩梗：大跌特效
+                if (changePercent < -0.05) {
+                    effectClass = 'effect-dark-noodles'; // 关灯吃面
+                    resultTitle = '天台排队...';
+                    resultEmoji = '🕯️';
+                } else {
+                    effectClass = 'effect-fall';
+                }
+
                 app.globalData.stats.loseCount++;
+            } else {
+                // 平盘 (可能是停牌重组触发)
+                resultType = 'neutral';
+                resultEmoji = '🛡️';
+                resultTitle = '保住狗命';
+                resultMessage = '虽然买入但未亏损';
             }
         } else {
             // 空仓观望
             app.globalData.stats.waitCount++;
 
-            if (changePercent < -0.02) {
+            // 重新获取原始涨幅用于判断踏空/躲避 (因为 changePercent 可能被庄家抬轿修改)
+            const rawChange = (answer.close - preClose) / preClose;
+
+            if (changePercent > 0 && currentTalent?.id === 'banker') {
+                // 庄家抬轿特殊情况
+                resultType = 'win';
+                resultEmoji = '🎰';
+                resultTitle = '躺着赚钱';
+                resultMessage = `空仓理财收益 ${changeDisplay}%`;
+                effectClass = 'effect-rise';
+                app.globalData.stats.winCount++;
+            } else if (rawChange < -0.02) {
                 // 成功躲避暴跌
                 resultType = 'dodge';
-                resultEmoji = '🛡️';
+                resultEmoji = '😏';
                 resultTitle = '神操作！';
-                resultMessage = `成功躲过 ${Math.abs(changeDisplay)}% 的暴跌`;
+                resultMessage = `成功躲过 ${(Math.abs(rawChange) * 100).toFixed(2)}% 的暴跌`;
                 effectClass = 'effect-dodge';
                 app.globalData.stats.dodgeCount++;
-            } else if (changePercent > 0.02) {
+            } else if (rawChange > 0.02) {
                 // 踏空
                 resultType = 'miss';
                 resultEmoji = '😫';
-                resultTitle = '踏空了！';
-                resultMessage = `错过 ${changeDisplay}% 的大涨，大腿拍断`;
+                resultTitle = '拍断大腿！';
+                resultMessage = `错过 ${(rawChange * 100).toFixed(2)}% 的大涨`;
                 effectClass = '';
                 app.globalData.stats.missCount++;
             } else {
@@ -186,6 +275,11 @@ Page({
                 resultMessage = '行情平淡，空仓是明智之选';
                 effectClass = '';
             }
+        }
+
+        // 如果触发了天赋，追加提示
+        if (talentEffectTriggered) {
+            resultMessage = `${resultMessage}\n(${talentMessage})`;
         }
 
         // 更新全局资金
@@ -262,6 +356,12 @@ Page({
 
     // 下一关
     nextLevel() {
+        // 破产检测 (资金 < 20000)
+        if (app.globalData.currentCapital < 20000) {
+            this.handleBankruptcy();
+            return;
+        }
+
         const nextLevel = app.globalData.currentLevel + 1;
 
         if (nextLevel > app.globalData.totalLevels) {
@@ -281,6 +381,49 @@ Page({
 
             this.initGame();
         }
+    },
+
+    // 处理破产
+    handleBankruptcy() {
+        wx.showModal({
+            title: '⚠️ 资金链断裂',
+            content: '您的资金已不足 2 万元，面临破产清算！\n是否寻找天使投资人进行重组？',
+            confirmText: '拉投资',
+            cancelText: '放弃',
+            success: (res) => {
+                if (res.confirm) {
+                    // 复活成功
+                    app.globalData.currentCapital = 50000; // 恢复到 5万
+
+                    wx.showToast({
+                        title: '注资成功！',
+                        icon: 'success'
+                    });
+
+                    // 播放音效
+                    soundHelper.playSound(soundHelper.SOUNDS.LEVEL_UP);
+
+                    // 继续游戏（进入下一关）
+                    const nextLevel = app.globalData.currentLevel + 1;
+                    if (nextLevel > app.globalData.totalLevels) {
+                        wx.redirectTo({ url: '/pages/result/result' });
+                    } else {
+                        app.globalData.currentLevel = nextLevel;
+                        this.setData({
+                            showingResult: false,
+                            effectClass: '',
+                            resultAnimation: ''
+                        });
+                        this.initGame();
+                    }
+                } else {
+                    // 放弃，直接结算
+                    wx.redirectTo({
+                        url: '/pages/result/result'
+                    });
+                }
+            }
+        });
     },
 
     // 格式化金额
